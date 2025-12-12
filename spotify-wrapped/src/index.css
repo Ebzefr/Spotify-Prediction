@@ -6,11 +6,18 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
+  height: 100%;
+  height: -webkit-fill-available;
+}
+
+body {
   margin: 0;
   overflow: hidden;
   background: #F5F5DC;
   height: 100%;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   width: 100%;
   touch-action: none;
   -webkit-overflow-scrolling: none;
@@ -21,9 +28,8 @@ html, body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
+  width: 100%;
+  height: 100%;
   background: #F5F5DC;
   overflow: hidden;
   touch-action: pan-y;
@@ -34,77 +40,77 @@ html, body {
   display: flex;
   flex-direction: column;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 1100vh;
-  height: calc(1100 * var(--vh, 1vh));
 }
 
 .screens-wrapper.screen-1 { transform: translateY(0); }
-.screens-wrapper.screen-2 { transform: translateY(-100vh); transform: translateY(calc(-100 * var(--vh, 1vh))); }
-.screens-wrapper.screen-3 { transform: translateY(-200vh); transform: translateY(calc(-200 * var(--vh, 1vh))); }
-.screens-wrapper.screen-4 { transform: translateY(-300vh); transform: translateY(calc(-300 * var(--vh, 1vh))); }
-.screens-wrapper.screen-5 { transform: translateY(-400vh); transform: translateY(calc(-400 * var(--vh, 1vh))); }
-.screens-wrapper.screen-6 { transform: translateY(-500vh); transform: translateY(calc(-500 * var(--vh, 1vh))); }
-.screens-wrapper.screen-7 { transform: translateY(-600vh); transform: translateY(calc(-600 * var(--vh, 1vh))); }
-.screens-wrapper.screen-8 { transform: translateY(-700vh); transform: translateY(calc(-700 * var(--vh, 1vh))); }
-.screens-wrapper.screen-9 { transform: translateY(-800vh); transform: translateY(calc(-800 * var(--vh, 1vh))); }
-.screens-wrapper.screen-10 { transform: translateY(-900vh); transform: translateY(calc(-900 * var(--vh, 1vh))); }
-.screens-wrapper.screen-11 { transform: translateY(-1000vh); transform: translateY(calc(-1000 * var(--vh, 1vh))); }
-
+.screens-wrapper.screen-2 { transform: translateY(-100%); }
+.screens-wrapper.screen-3 { transform: translateY(-200%); }
+.screens-wrapper.screen-4 { transform: translateY(-300%); }
+.screens-wrapper.screen-5 { transform: translateY(-400%); }
+.screens-wrapper.screen-6 { transform: translateY(-500%); }
+.screens-wrapper.screen-7 { transform: translateY(-600%); }
+.screens-wrapper.screen-8 { transform: translateY(-700%); }
+.screens-wrapper.screen-9 { transform: translateY(-800%); }
+.screens-wrapper.screen-10 { transform: translateY(-900%); }
+.screens-wrapper.screen-11 { transform: translateY(-1000%); }
 
 /* Base screen class */
 .screen {
   width: 100vw;
   height: 100vh;
   height: 100dvh;
+  height: -webkit-fill-available;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-shrink: 0;
   overflow: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .screen-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 40px 20px 20px;
+  justify-content: center;
+  flex: 1;
   position: relative;
   z-index: 10;
   width: 100%;
-  height: 100%;
-  max-width: 100%;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
 }
 
 /* ==================== ANIMATIONS ==================== */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(25px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-30px); }
+  from { opacity: 0; transform: translateY(-25px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
+  from { opacity: 0; transform: translateX(-25px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(30px); }
+  from { opacity: 0; transform: translateX(25px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.8); }
+  from { opacity: 0; transform: scale(0.85); }
   to { opacity: 1; transform: scale(1); }
 }
 
 @keyframes slideInSong {
-  from { opacity: 0; transform: translateX(60px); }
+  from { opacity: 0; transform: translateX(50px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -126,25 +132,26 @@ html, body {
   position: absolute;
   left: 0;
   right: 0;
-  height: 28%;
   overflow: hidden;
   z-index: 1;
 }
 
 .checkerboard-container.top {
   top: 0;
+  height: 20vh;
   transform: scaleY(-1);
 }
 
 .checkerboard-container.bottom {
   bottom: 0;
+  height: 20vh;
 }
 
 .checkerboard-container.bottom-only {
   bottom: 0;
   top: auto;
-  height: 22%;
-  transform: perspective(400px) rotateX(-12deg);
+  height: 18vh;
+  transform: perspective(300px) rotateX(-10deg);
   transform-origin: bottom center;
 }
 
@@ -156,65 +163,61 @@ html, body {
 /* Small Checkerboard */
 .small-checkerboard {
   position: absolute;
-  width: 140px;
-  height: 90px;
+  width: 120px;
+  height: 80px;
   overflow: hidden;
   z-index: 1;
 }
 
 .small-checkerboard.bottom-right {
-  bottom: 0;
+  bottom: env(safe-area-inset-bottom, 0);
   right: 0;
-  transform: perspective(300px) rotateX(-15deg) rotateZ(5deg);
+  transform: perspective(250px) rotateX(-12deg) rotateZ(5deg);
   transform-origin: bottom right;
 }
 
 .small-checkerboard.top-left {
-  top: 0;
+  top: env(safe-area-inset-top, 0);
   left: 0;
-  transform: perspective(300px) rotateX(15deg) rotateZ(-5deg);
+  transform: perspective(250px) rotateX(12deg) rotateZ(-5deg);
   transform-origin: top left;
 }
 
 .small-checkerboard.top-right {
-  top: 0;
+  top: env(safe-area-inset-top, 0);
   right: 0;
-  transform: perspective(300px) rotateX(15deg) rotateZ(5deg);
+  transform: perspective(250px) rotateX(12deg) rotateZ(5deg);
   transform-origin: top right;
 }
 
 /* ==================== SPOTIFY LOGO ==================== */
 .spotify-logo-container {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-15px);
+  margin-bottom: 10px;
 }
 
 .spotify-logo-container.animate {
-  animation: fadeInDown 0.6s ease-out forwards;
-}
-
-.spotify-logo-container.small {
-  margin-bottom: 15px;
-}
-
-.spotify-logo-container.small.animate {
   animation: fadeInDown 0.5s ease-out forwards;
 }
 
+.spotify-logo-container.small {
+  margin-bottom: 8px;
+}
+
 .spotify-logo {
-  width: 60px;
-  height: 60px;
-  transition: transform 0.3s ease;
+  width: 50px;
+  height: 50px;
 }
 
 .spotify-logo.large {
-  width: 80px;
-  height: 80px;
+  width: 65px;
+  height: 65px;
 }
 
 .spotify-logo.small {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
 /* ==================== SCREEN 1 ==================== */
@@ -222,47 +225,50 @@ html, body {
   background: #F5F5DC;
 }
 
+.screen-1 .screen-content {
+  justify-content: center;
+}
+
 .center-content {
-  position: relative;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 15px;
+  gap: 10px;
+  z-index: 10;
 }
 
 .year-container {
   opacity: 0;
-  transform: translateX(40px);
+  transform: translateX(30px);
 }
 
 .year-container.animate {
-  animation: fadeInRight 0.8s ease-out 0.3s forwards;
+  animation: fadeInRight 0.7s ease-out 0.2s forwards;
 }
 
 .year-text {
   font-family: 'Boogaloo', cursive;
-  font-size: 35vw;
+  font-size: min(32vw, 180px);
   color: #FF3C00;
   line-height: 0.9;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
 
 .tap-hint {
   position: absolute;
-  bottom: 25%;
+  bottom: calc(22vh + env(safe-area-inset-bottom, 0px));
   left: 50%;
   transform: translateX(-50%);
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   color: #1a1a1a;
   opacity: 0;
   z-index: 100;
 }
 
 .tap-hint.animate {
-  animation: fadeInOut 2s ease-in-out 1s infinite;
+  animation: fadeInOut 2s ease-in-out 0.8s infinite;
 }
 
 /* ==================== SCREEN 2 ==================== */
@@ -272,34 +278,31 @@ html, body {
 
 .predicted-title {
   font-family: "Dela Gothic One", sans-serif;
-  font-size: clamp(22px, 6vw, 36px);
+  font-size: min(6.5vw, 32px);
   color: #1a1a1a;
   font-weight: 400;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-align: center;
   opacity: 0;
   transform: translateY(20px);
 }
 
 .predicted-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  animation: fadeInUp 0.6s ease-out 0.15s forwards;
 }
 
 .year-text-screen2 {
-  position: absolute;
-  bottom: 25%;
-  left: 50%;
-  transform: translateX(-50%);
   font-family: 'Boogaloo', cursive;
-  font-size: 28vw;
+  font-size: min(25vw, 140px);
   color: #FF3C00;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
-  z-index: 5;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
   opacity: 0;
+  transform: translateY(20px);
 }
 
 .year-text-screen2.animate {
-  animation: fadeInUp 0.8s ease-out 0.4s forwards;
+  animation: fadeInUp 0.7s ease-out 0.3s forwards;
 }
 
 /* ==================== SCREEN 3 ==================== */
@@ -310,22 +313,21 @@ html, body {
 .listened-text {
   text-align: center;
   z-index: 10;
-  margin-top: 15vh;
   opacity: 0;
   transform: translateY(20px);
 }
 
 .listened-text.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
+  animation: fadeInUp 0.6s ease-out 0.15s forwards;
 }
 
 .listened-text h1 {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(28px, 8vw, 48px);
+  font-size: min(9vw, 50px);
   color: #FFFFFF;
   font-weight: 400;
   margin: 0;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 /* ==================== SCREEN 4 ==================== */
@@ -336,32 +338,31 @@ html, body {
 .minutes-display {
   text-align: center;
   z-index: 10;
-  margin-top: 12vh;
   opacity: 0;
   transform: translateY(20px);
 }
 
 .minutes-display.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
+  animation: fadeInUp 0.6s ease-out 0.15s forwards;
 }
 
 .minutes-number {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(50px, 18vw, 120px);
+  font-size: min(18vw, 100px);
   color: #7B5CF5;
   font-weight: 400;
   margin: 0;
   line-height: 1;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
 .minutes-text {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(14px, 4vw, 20px);
+  font-size: min(4vw, 18px);
   color: #FFFFFF;
   font-weight: 400;
-  margin-top: 15px;
-  padding: 0 20px;
+  margin-top: 12px;
+  padding: 0 15px;
 }
 
 .minutes-highlight { font-weight: 700; }
@@ -374,7 +375,6 @@ html, body {
 .teaser-text, .albums-teaser-text, .artists-teaser-text {
   text-align: center;
   z-index: 10;
-  margin-top: 12vh;
   opacity: 0;
   transform: translateY(20px);
 }
@@ -382,16 +382,17 @@ html, body {
 .teaser-text.animate,
 .albums-teaser-text.animate,
 .artists-teaser-text.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
+  animation: fadeInUp 0.6s ease-out 0.15s forwards;
 }
 
 .teaser-line {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
+  font-size: min(4.5vw, 20px);
   color: #FFFFFF;
   font-weight: 400;
-  margin: 0 0 15px 0;
+  margin: 0 0 12px 0;
   padding: 0 20px;
+  line-height: 1.4;
 }
 
 .teaser-line.dark { color: #1a1a1a; }
@@ -399,25 +400,25 @@ html, body {
 
 .teaser-line-bold {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
+  font-size: min(4.5vw, 20px);
   color: #FFFFFF;
   font-weight: 700;
-  margin: 0 0 20px 0;
+  margin: 0 0 18px 0;
 }
 
 .teaser-line-medium {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
+  font-size: min(4.5vw, 20px);
   color: #1a1a1a;
   font-weight: 500;
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
 }
 
 .teaser-line-medium.light { color: #FFFFFF; }
 
 .teaser-number {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(40px, 12vw, 70px);
+  font-size: min(14vw, 75px);
   color: #FFFFFF;
   font-weight: 400;
   margin: 0;
@@ -425,7 +426,7 @@ html, body {
 
 .top-5-text {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(40px, 12vw, 70px);
+  font-size: min(14vw, 75px);
   color: #1a1a1a;
   font-weight: 400;
   margin: 0;
@@ -439,34 +440,34 @@ html, body {
 }
 
 .screen-6 .screen-content {
-  padding-top: 30px;
+  justify-content: flex-start;
+  padding-top: max(15px, env(safe-area-inset-top));
 }
 
 .top-songs-title {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(20px, 5.5vw, 32px);
+  font-size: min(5.5vw, 26px);
   color: #1a1a1a;
   font-weight: 400;
-  margin: 10px 0 15px 0;
+  margin: 8px 0 12px 0;
   text-align: center;
   background: #FFFFFF;
-  padding: 6px 16px;
+  padding: 5px 14px;
   display: inline-block;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(15px);
 }
 
 .top-songs-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  animation: fadeInUp 0.5s ease-out 0.15s forwards;
 }
 
 .songs-list {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
+  max-width: 320px;
   z-index: 10;
 }
 
@@ -475,33 +476,33 @@ html, body {
   align-items: center;
   gap: 10px;
   opacity: 0;
-  transform: translateX(60px);
+  transform: translateX(50px);
 }
 
 .song-item.animate {
-  animation: slideInSong 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: slideInSong 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .song-rank {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(22px, 6vw, 32px);
+  font-size: min(6vw, 28px);
   color: #FFFFFF;
-  min-width: 35px;
+  min-width: 30px;
   text-align: center;
 }
 
 .song-image {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   object-fit: cover;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .song-info { display: flex; flex-direction: column; gap: 1px; }
 
 .song-title {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(13px, 3.5vw, 18px);
+  font-size: min(3.8vw, 16px);
   color: #FFFFFF;
   font-weight: 400;
   margin: 0;
@@ -509,7 +510,7 @@ html, body {
 
 .song-artist {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 2.5vw, 14px);
+  font-size: min(3vw, 13px);
   color: #AAAAAA;
   font-weight: 400;
   margin: 0;
@@ -524,16 +525,16 @@ html, body {
 .flipping-circles-grid {
   position: absolute;
   display: grid;
-  gap: 6px;
+  gap: 5px;
   z-index: 1;
-  bottom: 25px;
-  left: 15px;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  left: 12px;
 }
 
 .flip-circle {
-  width: 40px;
-  height: 40px;
-  perspective: 800px;
+  width: 36px;
+  height: 36px;
+  perspective: 600px;
 }
 
 .flip-circle-inner {
@@ -567,7 +568,8 @@ html, body {
 }
 
 .screen-8 .screen-content {
-  padding-top: 25px;
+  justify-content: flex-start;
+  padding-top: max(12px, env(safe-area-inset-top));
 }
 
 .flipping-circles-row {
@@ -576,13 +578,13 @@ html, body {
   gap: 0;
   width: 100%;
   overflow: hidden;
-  margin: 8px 0;
+  margin: 6px 0;
 }
 
 .flip-circle-horizontal {
-  width: 45px;
-  height: 45px;
-  perspective: 800px;
+  width: 42px;
+  height: 42px;
+  perspective: 600px;
   flex-shrink: 0;
 }
 
@@ -604,35 +606,35 @@ html, body {
 
 .top-albums-title {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(18px, 5vw, 28px);
+  font-size: min(5vw, 24px);
   color: #1a1a1a;
   font-weight: 400;
-  margin: 8px 0 12px 0;
+  margin: 6px 0 10px 0;
   text-align: center;
   background: #F5C518;
-  padding: 5px 14px;
+  padding: 4px 12px;
   display: inline-block;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(15px);
 }
 
 .top-albums-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  animation: fadeInUp 0.5s ease-out 0.15s forwards;
 }
 
 .albums-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  max-width: 260px;
-  margin: 0 auto 12px auto;
+  gap: 3px;
+  width: fit-content;
+  margin: 0 auto 10px auto;
   z-index: 10;
 }
 
 .album-image-item {
   position: relative;
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.85);
 }
 
 .album-image-item.animate {
@@ -640,70 +642,68 @@ html, body {
 }
 
 .album-image-item img {
-  width: 100%;
-  max-width: 128px;
-  height: auto;
-  aspect-ratio: 1;
+  width: 115px;
+  height: 115px;
   object-fit: cover;
+  display: block;
 }
 
 .album-number {
   position: absolute;
-  bottom: 5px;
-  right: 5px;
+  bottom: 4px;
+  right: 4px;
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   color: #FFFFFF;
   background: rgba(0, 0, 0, 0.6);
-  padding: 2px 6px;
-  border-radius: 3px;
+  padding: 1px 5px;
+  border-radius: 2px;
 }
 
 .albums-list {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 25px;
   width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
+  max-width: 320px;
   z-index: 10;
 }
 
 .albums-list-left, .albums-list-right {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .album-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateX(25px);
 }
 
 .album-item.animate {
-  animation: slideInSong 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: slideInSong 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .album-item-center {
   justify-content: center;
-  margin-top: 8px;
+  margin-top: 6px;
 }
 
 .album-rank {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(18px, 5vw, 26px);
+  font-size: min(5vw, 22px);
   color: #1a1a1a;
-  min-width: 22px;
+  min-width: 20px;
 }
 
-.album-info { display: flex; flex-direction: column; gap: 1px; }
+.album-info { display: flex; flex-direction: column; gap: 0; }
 
 .album-name {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(12px, 3vw, 16px);
+  font-size: min(3.2vw, 14px);
   color: #1a1a1a;
   font-weight: 400;
   margin: 0;
@@ -711,7 +711,7 @@ html, body {
 
 .album-artist {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(10px, 2.5vw, 13px);
+  font-size: min(2.8vw, 12px);
   color: #666666;
   font-weight: 400;
   margin: 0;
@@ -728,25 +728,26 @@ html, body {
 }
 
 .screen-10 .screen-content {
-  padding-top: 30px;
+  justify-content: flex-start;
+  padding-top: max(15px, env(safe-area-inset-top));
 }
 
 .top-artists-title {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(20px, 5.5vw, 32px);
+  font-size: min(5.5vw, 26px);
   color: #1a1a1a;
   font-weight: 400;
-  margin: 10px 0 15px 0;
+  margin: 8px 0 12px 0;
   text-align: center;
   background: #FFFFFF;
-  padding: 6px 16px;
+  padding: 5px 14px;
   display: inline-block;
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(15px);
 }
 
 .top-artists-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  animation: fadeInUp 0.5s ease-out 0.15s forwards;
 }
 
 .artists-list {
@@ -754,8 +755,7 @@ html, body {
   flex-direction: column;
   gap: 4px;
   width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
+  max-width: 320px;
   z-index: 10;
 }
 
@@ -764,35 +764,35 @@ html, body {
   align-items: center;
   gap: 10px;
   opacity: 0;
-  transform: translateX(60px);
+  transform: translateX(50px);
 }
 
 .artist-item.animate {
-  animation: slideInSong 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: slideInSong 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .artist-rank {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(22px, 6vw, 32px);
+  font-size: min(6vw, 28px);
   color: #FFFFFF;
-  min-width: 35px;
+  min-width: 30px;
   text-align: center;
 }
 
 .artist-image {
-  width: 50px;
-  height: 50px;
+  width: 46px;
+  height: 46px;
   object-fit: cover;
 }
 
 .artist-name {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(14px, 4vw, 20px);
+  font-size: min(4vw, 18px);
   color: #1a1a1a;
   font-weight: 400;
   margin: 0;
   background: #FFFFFF;
-  padding: 3px 10px;
+  padding: 3px 8px;
   display: inline-block;
 }
 
@@ -802,13 +802,18 @@ html, body {
   overflow: hidden;
 }
 
+.screen-11 .screen-content {
+  justify-content: flex-start;
+  padding-top: max(12px, env(safe-area-inset-top));
+}
+
 .summary-year-text {
   position: absolute;
-  left: -8%;
+  left: -6%;
   top: 50%;
   transform: translateY(-50%);
   font-family: 'Boogaloo', cursive;
-  font-size: clamp(140px, 45vw, 280px);
+  font-size: min(42vw, 220px);
   color: #F5C518;
   line-height: 0.8;
   writing-mode: vertical-rl;
@@ -822,7 +827,7 @@ html, body {
 }
 
 .summary-year-text.animate {
-  animation: fadeInLeft 0.8s ease-out forwards;
+  animation: fadeInLeft 0.7s ease-out forwards;
 }
 
 .summary-content {
@@ -830,39 +835,38 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: 15px 15px 20px;
   position: relative;
   z-index: 10;
   width: 100%;
   height: 100%;
+  padding: 10px;
 }
 
 .summary-image-container {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.85);
 }
 
 .summary-image-container.animate {
-  animation: scaleIn 0.7s ease-out 0.2s forwards;
+  animation: scaleIn 0.6s ease-out 0.15s forwards;
 }
 
 .summary-main-image {
-  width: clamp(140px, 40vw, 200px);
-  height: clamp(140px, 40vw, 200px);
+  width: min(38vw, 160px);
+  height: min(38vw, 160px);
   object-fit: cover;
-  border: 5px solid #FFFFFF;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .summary-lists {
   display: flex;
   justify-content: center;
-  gap: clamp(25px, 10vw, 60px);
+  gap: min(10vw, 50px);
   width: 100%;
-  max-width: 340px;
-  padding: 0 10px;
-  margin-bottom: 15px;
+  max-width: 320px;
+  margin-bottom: 12px;
 }
 
 .summary-column {
@@ -871,16 +875,16 @@ html, body {
 
 .summary-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 3vw, 14px);
+  font-size: min(3vw, 13px);
   color: #1a1a1a;
   font-weight: 400;
-  margin: 0 0 6px 0;
+  margin: 0 0 5px 0;
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(12px);
 }
 
 .summary-label.animate {
-  animation: fadeInUp 0.5s ease-out 0.3s forwards;
+  animation: fadeInUp 0.4s ease-out 0.25s forwards;
 }
 
 .summary-items {
@@ -891,40 +895,40 @@ html, body {
 
 .summary-item {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(12px, 3.5vw, 16px);
+  font-size: min(3.5vw, 15px);
   color: #1a1a1a;
   font-weight: 400;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.45;
   opacity: 0;
-  transform: translateX(20px);
+  transform: translateX(15px);
 }
 
 .summary-item.animate {
-  animation: slideInSong 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: slideInSong 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .summary-minutes {
   text-align: center;
   opacity: 0;
-  transform: translateY(15px);
+  transform: translateY(12px);
 }
 
 .summary-minutes.animate {
-  animation: fadeInUp 0.6s ease-out 0.8s forwards;
+  animation: fadeInUp 0.5s ease-out 0.7s forwards;
 }
 
 .summary-minutes-label {
   font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 3vw, 14px);
+  font-size: min(3vw, 13px);
   color: #1a1a1a;
   font-weight: 400;
-  margin: 0 0 4px 0;
+  margin: 0 0 3px 0;
 }
 
 .summary-minutes-number {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(32px, 10vw, 55px);
+  font-size: min(10vw, 50px);
   color: #1a1a1a;
   font-weight: 400;
   margin: 0;
@@ -958,51 +962,64 @@ html, body {
 .black-line,
 .white-swoosh,
 .summary-line {
-  stroke-dasharray: 1500;
-  stroke-dashoffset: 1500;
-  opacity: 0.6;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  opacity: 0.55;
 }
 
-.screens-wrapper.screen-1 .pencil-line { animation: drawLine 2s ease-out 0.5s forwards; }
-.screens-wrapper.screen-2 .curved-line { animation: drawLine 1.8s ease-out 0.3s forwards; }
-.screens-wrapper.screen-3 .purple-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-4 .white-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-5 .purple-line-single { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-6 .arc-line { animation: drawLine 1.5s ease-out 0.2s forwards; }
-.screens-wrapper.screen-7 .black-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-9 .purple-line-single { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-10 .white-swoosh { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-11 .summary-line { animation: drawLine 2s ease-out 0.3s forwards; }
+.screens-wrapper.screen-1 .pencil-line { animation: drawLine 1.8s ease-out 0.4s forwards; }
+.screens-wrapper.screen-2 .curved-line { animation: drawLine 1.6s ease-out 0.25s forwards; }
+.screens-wrapper.screen-3 .purple-line { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-4 .white-line { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-5 .purple-line-single { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-6 .arc-line { animation: drawLine 1.4s ease-out 0.15s forwards; }
+.screens-wrapper.screen-7 .black-line { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-9 .purple-line-single { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-10 .white-swoosh { animation: drawLine 1.8s ease-out 0.25s forwards; }
+.screens-wrapper.screen-11 .summary-line { animation: drawLine 1.8s ease-out 0.25s forwards; }
 
 /* White Arc specific */
 .white-arc {
-  height: 120px;
+  height: 100px;
+  top: 0;
 }
 
-/* ==================== RESPONSIVE ==================== */
-@media (max-width: 380px) {
-  .year-text { font-size: 40vw; }
-  .song-image, .artist-image { width: 45px; height: 45px; }
-  .albums-grid { max-width: 220px; }
+/* ==================== SMALL SCREEN ADJUSTMENTS ==================== */
+@media (max-height: 700px) {
+  .song-image, .artist-image { width: 40px; height: 40px; }
+  .songs-list, .artists-list { gap: 3px; }
+  .album-image-item img { width: 100px; height: 100px; }
   .summary-main-image { width: 130px; height: 130px; }
-  .flip-circle { width: 35px; height: 35px; }
-  .flip-circle-horizontal { width: 40px; height: 40px; }
+  .checkerboard-container.bottom-only { height: 15vh; }
+  .flip-circle { width: 32px; height: 32px; }
+  .flip-circle-horizontal { width: 38px; height: 38px; }
 }
 
+@media (max-height: 600px) {
+  .song-image, .artist-image { width: 36px; height: 36px; }
+  .album-image-item img { width: 85px; height: 85px; }
+  .summary-main-image { width: 110px; height: 110px; }
+  .checkerboard-container.top,
+  .checkerboard-container.bottom { height: 15vh; }
+  .checkerboard-container.bottom-only { height: 12vh; }
+}
+
+@media (max-width: 350px) {
+  .year-text { font-size: 28vw; }
+  .song-image, .artist-image { width: 38px; height: 38px; }
+  .album-image-item img { width: 95px; height: 95px; }
+  .flip-circle { width: 30px; height: 30px; }
+}
+
+/* Tall phones */
 @media (min-height: 800px) {
-  .screen-content { padding-top: 50px; }
-  .listened-text { margin-top: 18vh; }
-  .minutes-display { margin-top: 15vh; }
-  .teaser-text, .albums-teaser-text, .artists-teaser-text { margin-top: 15vh; }
+  .screen-content { padding-top: max(25px, env(safe-area-inset-top)); }
+  .songs-list, .artists-list { gap: 6px; }
+  .song-image, .artist-image { width: 50px; height: 50px; }
+  .album-image-item img { width: 125px; height: 125px; }
 }
 
-@media (max-height: 650px) {
-  .screen-content { padding-top: 25px; }
-  .listened-text { margin-top: 8vh; }
-  .minutes-display { margin-top: 8vh; }
-  .teaser-text, .albums-teaser-text, .artists-teaser-text { margin-top: 8vh; }
-  .song-image, .artist-image { width: 42px; height: 42px; }
-  .songs-list, .artists-list { gap: 4px; }
-  .albums-grid { max-width: 200px; gap: 3px; }
-  .summary-main-image { width: 120px; height: 120px; }
+@media (min-height: 900px) {
+  .checkerboard-container.bottom-only { height: 20vh; }
+  .songs-list, .artists-list { gap: 8px; }
 }
