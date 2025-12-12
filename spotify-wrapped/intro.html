@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Wrapped 2026 - Predicted</title>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            background: #f5f5dc;
+            font-family: 'Boogaloo', cursive;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Checkered swirl background */
+        .swirl-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .swirl-top, .swirl-bottom {
+            position: absolute;
+            width: 200%;
+            height: 60%;
+            background: 
+                repeating-conic-gradient(
+                    from 0deg,
+                    #000 0deg 10deg,
+                    #f5f5dc 10deg 20deg
+                );
+            background-size: 60px 60px;
+            opacity: 0;
+        }
+
+        .swirl-top {
+            top: -30%;
+            animation: swirlFromTop 1.5s ease-out 0.2s forwards;
+        }
+
+        .swirl-bottom {
+            bottom: -30%;
+            animation: swirlFromBottom 1.5s ease-out 0.2s forwards;
+        }
+
+        .checkered-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            animation: fadeInBg 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes swirlFromTop {
+            0% {
+                transform: translateY(-100%) rotate(-180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes swirlFromBottom {
+            0% {
+                transform: translateY(100%) rotate(180deg) scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInBg {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Spotify Logo */
+        .spotify-logo {
+            position: absolute;
+            z-index: 10;
+            width: 120px;
+            height: 120px;
+            opacity: 0;
+            transform: translateY(-100vh);
+            animation: dropLogo 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1s forwards;
+        }
+
+        @keyframes dropLogo {
+            0% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
+            }
+            60% {
+                transform: translateY(10px) scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Decorative lines */
+        .lines-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .line {
+            position: absolute;
+            height: 2px;
+            background: #000;
+            transform-origin: left center;
+            transform: scaleX(0);
+        }
+
+        .line-1 {
+            top: 35%;
+            left: 0;
+            width: 100%;
+            animation: drawLine 0.8s ease-out 1.8s forwards;
+        }
+
+        .line-2 {
+            top: 45%;
+            left: 0;
+            width: 100%;
+            animation: drawLine 0.8s ease-out 2s forwards;
+        }
+
+        .line-3 {
+            top: 55%;
+            left: 0;
+            width: 100%;
+            animation: drawLine 0.8s ease-out 2.2s forwards;
+        }
+
+        .line-4 {
+            top: 65%;
+            left: 0;
+            width: 100%;
+            animation: drawLine 0.8s ease-out 2.4s forwards;
+        }
+
+        /* Curved lines using SVG */
+        .curved-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 6;
+        }
+
+        .curved-lines path {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2;
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            animation: drawCurvedLine 1.5s ease-out 1.5s forwards;
+        }
+
+        @keyframes drawLine {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+        }
+
+        @keyframes drawCurvedLine {
+            0% { stroke-dashoffset: 2000; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* 2026 Text */
+.year-text {
+    position: absolute;
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50vw;
+    font-family: 'Boogaloo', cursive;
+    color: #FF3C00;
+    letter-spacing: -0.02em;
+    transform: translateX(100vw);
+    animation: slideIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 2.5s forwards;
+    text-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    white-space: nowrap;
+}
+
+        .year-text span {
+            display: inline-block;
+        }
+
+        .year-text .zero-placeholder {
+            width: clamp(80px, 12vw, 160px);
+            display: inline-block;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateX(100vw);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .logo-inline {
+            position: absolute;
+            z-index: 20;
+            width: clamp(80px, 12vw, 160px);
+            height: clamp(80px, 12vw, 160px);
+            opacity: 0;
+            transform: translateY(-100vh);
+            animation: dropLogoInline 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) 1.2s forwards;
+        }
+
+        @keyframes dropLogoInline {
+            0% {
+                transform: translateY(-100vh) rotate(-180deg);
+                opacity: 0;
+            }
+            70% {
+                transform: translateY(20px) rotate(10deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Click to continue */
+        .continue-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Boogaloo', cursive;
+            font-size: 18px;
+            color: #000;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-out 4s forwards, pulse 2s ease-in-out 4.5s infinite;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Animated checkered background -->
+        <svg class="checkered-bg" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <pattern id="checker" width="40" height="40" patternUnits="userSpaceOnUse">
+                    <rect width="20" height="20" fill="#000"/>
+                    <rect x="20" y="20" width="20" height="20" fill="#000"/>
+                    <rect x="20" width="20" height="20" fill="#f5f5dc"/>
+                    <rect y="20" width="20" height="20" fill="#f5f5dc"/>
+                </pattern>
+                <filter id="swirl">
+                    <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="3" result="turbulence" seed="3">
+                        <animate attributeName="baseFrequency" values="0.01;0.015;0.01" dur="10s" repeatCount="indefinite"/>
+                    </feTurbulence>
+                    <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="50" xChannelSelector="R" yChannelSelector="G"/>
+                </filter>
+            </defs>
+            <g filter="url(#swirl)">
+                <rect width="100%" height="100%" fill="url(#checker)"/>
+            </g>
+        </svg>
+
+        <!-- Canvas for dynamic checkered swirl -->
+        <canvas id="swirlCanvas"></canvas>
+
+        <!-- Curved decorative lines -->
+        <svg class="curved-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M 0,35 Q 30,30 50,38 T 100,32" style="animation-delay: 1.6s"/>
+            <path d="M 0,50 Q 25,45 50,52 T 100,48" style="animation-delay: 1.8s"/>
+            <path d="M 0,65 Q 35,60 50,68 T 100,62" style="animation-delay: 2s"/>
+        </svg>
+
+        <!-- Spotify Logo (drops in) -->
+        <svg class="logo-inline" viewBox="0 0 168 168" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="84" cy="84" r="84" fill="#191414"/>
+            <path d="M120.8 105.6c-1.2 0-2-.4-2.8-.8-16.8-10-37.6-12.4-62-6.8-1.6.4-3.6.8-4.4.8-2.8 0-4.8-2-4.8-4.8 0-3.2 1.6-4.8 4-5.2 27.6-6.4 52-3.6 71.6 8 2 1.2 3.2 2.4 3.2 5.2-.4 2.8-2.4 4.8-4.8 3.6zm10.8-22c-1.2 0-2.4-.4-3.6-1.2-19.2-12-48.4-15.2-71.2-8.4-1.2.4-2 .8-3.6.8-3.6 0-6-2.8-6-6s1.6-5.6 4.4-6.4c8-2.4 16.8-4 28.4-4 18 0 35.6 4.4 49.2 12.8 2.4 1.2 3.6 3.6 3.6 6-.4 3.6-2.8 6.4-6.4 6.4h5.2zm12.4-25.6c-1.2 0-2-.4-3.6-1.2C117.2 43.6 82 41.6 52 50c-1.2.4-2.4.8-4 .8-4.4 0-7.6-3.6-7.6-7.6 0-4.4 2.4-6.8 5.2-7.6 12-3.6 25.2-5.6 40.4-5.6 20.8 0 42 4.4 57.6 13.6 2.4 1.2 4.4 4 4.4 7.6-.4 4.4-3.6 7.6-8 7.6z" fill="#f5f5dc"/>
+        </svg>
+
+        <!-- 2026 Text -->
+        <div class="year-text">
+            <span>2</span>
+            <span class="zero-placeholder"></span>
+            <span>2</span>
+            <span>6</span>
+        </div>
+
+        <!-- Click to continue -->
+        <div class="continue-hint">tap to continue →</div>
+    </div>
+
+    <script>
+        // Canvas-based animated checkered swirl
+        const canvas = document.getElementById('swirlCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const checkerSize = 25;
+        let time = 0;
+        let animationStarted = false;
+        let animationProgress = 0;
+
+        function drawSwirl() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            
+            // Animate the swirl forming
+            if (animationProgress < 1) {
+                animationProgress += 0.02;
+            }
+            
+            for (let x = 0; x < canvas.width + checkerSize; x += checkerSize) {
+                for (let y = 0; y < canvas.height + checkerSize; y += checkerSize) {
+                    const dx = x - centerX;
+                    const dy = y - centerY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY);
+                    
+                    // Swirl distortion
+                    const angle = Math.atan2(dy, dx);
+                    const swirl = Math.sin(distance * 0.008 - time * 0.5) * 0.5;
+                    const warpX = Math.cos(angle + swirl) * distance * 0.15;
+                    const warpY = Math.sin(angle + swirl) * distance * 0.15;
+                    
+                    // Determine checker color based on warped position
+                    const checkX = Math.floor((x + warpX) / checkerSize);
+                    const checkY = Math.floor((y + warpY) / checkerSize);
+                    
+                    const isBlack = (checkX + checkY) % 2 === 0;
+                    
+                    // Animation: reveal from center outward
+                    const normalizedDistance = distance / maxDistance;
+                    const revealThreshold = animationProgress * 1.5;
+                    
+                    if (normalizedDistance < revealThreshold) {
+                        ctx.fillStyle = isBlack ? '#000' : '#f5f5dc';
+                        ctx.fillRect(x, y, checkerSize + 1, checkerSize + 1);
+                    }
+                }
+            }
+            
+            time += 0.02;
+            requestAnimationFrame(drawSwirl);
+        }
+
+        // Start animation after a brief delay
+        setTimeout(() => {
+            animationStarted = true;
+            drawSwirl();
+        }, 100);
+
+        // Continue hint click handler
+        document.querySelector('.continue-hint').addEventListener('click', () => {
+            // Navigate to next screen (you can change this)
+            alert('Next screen would load here!');
+        });
+    </script>
+</body>
+</html>
