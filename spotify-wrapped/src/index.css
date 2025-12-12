@@ -1,1047 +1,267 @@
 @import url('https://fonts.googleapis.com/css2?family=Boogaloo&family=Dela+Gothic+One&family=DM+Sans:wght@400;500;700&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 html, body {
-  margin: 0;
-  overflow: hidden;
-  background: #F5F5DC;
   height: 100%;
-  width: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
   touch-action: none;
   -webkit-overflow-scrolling: none;
   overscroll-behavior: none;
 }
 
-.wrapped-container {
+.app {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  background: #F5F5DC;
+  inset: 0;
   overflow: hidden;
-  touch-action: pan-y;
 }
 
-/* Screens Wrapper */
-.screens-wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  height: 1100vh;
-  height: calc(1100 * var(--vh, 1vh));
+  height: calc(100vh * 11);
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.screens-wrapper.screen-1 { transform: translateY(0); }
-.screens-wrapper.screen-2 { transform: translateY(-100vh); transform: translateY(calc(-100 * var(--vh, 1vh))); }
-.screens-wrapper.screen-3 { transform: translateY(-200vh); transform: translateY(calc(-200 * var(--vh, 1vh))); }
-.screens-wrapper.screen-4 { transform: translateY(-300vh); transform: translateY(calc(-300 * var(--vh, 1vh))); }
-.screens-wrapper.screen-5 { transform: translateY(-400vh); transform: translateY(calc(-400 * var(--vh, 1vh))); }
-.screens-wrapper.screen-6 { transform: translateY(-500vh); transform: translateY(calc(-500 * var(--vh, 1vh))); }
-.screens-wrapper.screen-7 { transform: translateY(-600vh); transform: translateY(calc(-600 * var(--vh, 1vh))); }
-.screens-wrapper.screen-8 { transform: translateY(-700vh); transform: translateY(calc(-700 * var(--vh, 1vh))); }
-.screens-wrapper.screen-9 { transform: translateY(-800vh); transform: translateY(calc(-800 * var(--vh, 1vh))); }
-.screens-wrapper.screen-10 { transform: translateY(-900vh); transform: translateY(calc(-900 * var(--vh, 1vh))); }
-.screens-wrapper.screen-11 { transform: translateY(-1000vh); transform: translateY(calc(-1000 * var(--vh, 1vh))); }
+.wrapper.s1 { transform: translateY(0); }
+.wrapper.s2 { transform: translateY(-100vh); }
+.wrapper.s3 { transform: translateY(-200vh); }
+.wrapper.s4 { transform: translateY(-300vh); }
+.wrapper.s5 { transform: translateY(-400vh); }
+.wrapper.s6 { transform: translateY(-500vh); }
+.wrapper.s7 { transform: translateY(-600vh); }
+.wrapper.s8 { transform: translateY(-700vh); }
+.wrapper.s9 { transform: translateY(-800vh); }
+.wrapper.s10 { transform: translateY(-900vh); }
+.wrapper.s11 { transform: translateY(-1000vh); }
 
-/* Progress Dots */
-.progress-dots {
-  position: fixed;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  z-index: 1000;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.dot.active {
-  background: #FFFFFF;
-  transform: scale(1.3);
-}
-
-.screen-1 ~ .progress-dots .dot,
-.screen-2 ~ .progress-dots .dot,
-.screen-7 ~ .progress-dots .dot,
-.screen-8 ~ .progress-dots .dot {
-  background: rgba(0, 0, 0, 0.3);
-}
-
-.screen-1 ~ .progress-dots .dot.active,
-.screen-2 ~ .progress-dots .dot.active,
-.screen-7 ~ .progress-dots .dot.active,
-.screen-8 ~ .progress-dots .dot.active {
-  background: #1a1a1a;
-}
-
-/* Base screen class */
 .screen {
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.screen-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 40px 20px 20px;
-  position: relative;
-  z-index: 10;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: env(safe-area-inset-top, 20px) 20px env(safe-area-inset-bottom, 20px);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-25px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeLeft { from { opacity: 0; transform: translateX(-25px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+@keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+@keyframes flip { 0%, 45% { transform: rotateY(0); } 50%, 95% { transform: rotateY(180deg); } 100% { transform: rotateY(360deg); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* ===== COMMON ===== */
+.logo-wrap {
+  opacity: 0;
+  margin-top: 15px;
+}
+.logo-wrap.animate { animation: fadeDown 0.5s ease-out forwards; }
+.logo-wrap.small { margin-bottom: 10px; }
+
+.spotify-logo { width: 50px; height: 50px; }
+.spotify-logo.large { width: 70px; height: 70px; }
+.spotify-logo.small { width: 40px; height: 40px; }
+
+.svg-lines {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  max-width: 100%;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* ==================== ANIMATIONS ==================== */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+.line {
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+  animation: draw 2s ease-out 0.3s forwards;
 }
 
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@keyframes slideInSong {
-  from { opacity: 0; transform: translateX(60px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes drawLine { to { stroke-dashoffset: 0; } }
-
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.7; }
-}
-
-@keyframes flipCircle {
-  0%, 45% { transform: rotateY(0deg); }
-  50%, 95% { transform: rotateY(180deg); }
-  100% { transform: rotateY(360deg); }
-}
-
-/* ==================== CHECKERBOARD ==================== */
+/* ===== CHECKERBOARD ===== */
 .checkerboard-container {
   position: absolute;
   left: 0;
   right: 0;
-  height: 28%;
-  overflow: hidden;
-  z-index: 1;
+  height: 18%;
+  max-height: 130px;
+  z-index: 2;
 }
 
-.checkerboard-container.top {
-  top: 0;
-  transform: scaleY(-1);
-}
-
-.checkerboard-container.bottom {
-  bottom: 0;
-}
-
+.checkerboard-container.top { top: 0; transform: scaleY(-1); }
+.checkerboard-container.bottom { bottom: 0; }
 .checkerboard-container.bottom-only {
   bottom: 0;
-  top: auto;
-  height: 22%;
-  transform: perspective(400px) rotateX(-12deg);
-  transform-origin: bottom center;
+  height: 18%;
+  max-height: 120px;
+  transform: perspective(300px) rotateX(-10deg);
+  transform-origin: bottom;
 }
 
-.checkerboard-svg {
-  width: 100%;
-  height: 100%;
-}
+.checkerboard-svg { width: 100%; height: 100%; }
 
-/* Small Checkerboard */
 .small-checkerboard {
   position: absolute;
-  width: 140px;
-  height: 90px;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.small-checkerboard.bottom-right {
-  bottom: 0;
-  right: 0;
-  transform: perspective(300px) rotateX(-15deg) rotateZ(5deg);
-  transform-origin: bottom right;
-}
-
-.small-checkerboard.top-left {
-  top: 0;
-  left: 0;
-  transform: perspective(300px) rotateX(15deg) rotateZ(-5deg);
-  transform-origin: top left;
-}
-
-.small-checkerboard.top-right {
-  top: 0;
-  right: 0;
-  transform: perspective(300px) rotateX(15deg) rotateZ(5deg);
-  transform-origin: top right;
-}
-
-/* ==================== SPOTIFY LOGO ==================== */
-.spotify-logo-container {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-.spotify-logo-container.animate {
-  animation: fadeInDown 0.6s ease-out forwards;
-}
-
-.spotify-logo-container.small {
-  margin-bottom: 15px;
-}
-
-.spotify-logo-container.small.animate {
-  animation: fadeInDown 0.5s ease-out forwards;
-}
-
-.spotify-logo {
-  width: 60px;
+  width: 110px;
   height: 60px;
-  transition: transform 0.3s ease;
+  z-index: 2;
 }
+.small-checkerboard.bottom-right { bottom: 10px; right: 10px; transform: perspective(200px) rotateX(-12deg) rotateZ(4deg); transform-origin: bottom right; }
+.small-checkerboard.top-left { top: 10px; left: 10px; transform: perspective(200px) rotateX(12deg) rotateZ(-4deg); transform-origin: top left; }
+.small-checkerboard.top-right { top: 10px; right: 10px; transform: perspective(200px) rotateX(12deg) rotateZ(4deg); transform-origin: top right; }
 
-.spotify-logo.large {
-  width: 80px;
-  height: 80px;
-}
+/* ===== SCREEN 1 ===== */
+.screen-1 { background: #F5F5DC; justify-content: center; }
+.main-content { display: flex; flex-direction: column; align-items: center; gap: 12px; z-index: 10; }
+.year-wrap { opacity: 0; }
+.year-wrap.animate { animation: fadeRight 0.7s ease-out 0.3s forwards; }
+.year-text { font-family: 'Boogaloo', cursive; font-size: 32vw; color: #FF3C00; line-height: 0.9; }
+.hint { position: absolute; bottom: 22%; font-family: 'DM Sans', sans-serif; font-size: 13px; color: #1a1a1a; opacity: 0; z-index: 10; }
+.hint.animate { animation: pulse 2s ease-in-out 1s infinite; }
 
-.spotify-logo.small {
-  width: 45px;
-  height: 45px;
-}
+/* ===== SCREEN 2 ===== */
+.screen-2 { background: #F5F5DC; padding-top: 50px; }
+.title { font-family: 'Dela Gothic One', sans-serif; font-size: 6.5vw; color: #1a1a1a; text-align: center; opacity: 0; z-index: 10; }
+.title.animate { animation: fadeUp 0.5s ease-out 0.2s forwards; }
+.year-2026 { position: absolute; bottom: 22%; font-family: 'Boogaloo', cursive; font-size: 26vw; color: #FF3C00; z-index: 5; opacity: 0; }
+.year-2026.animate { animation: fadeUp 0.6s ease-out 0.4s forwards; }
 
-/* ==================== SCREEN 1 ==================== */
-.screen-1 {
-  background: #F5F5DC;
-}
+/* ===== SCREEN 3 ===== */
+.screen-3 { background: #2A2A2A; padding-top: 50px; }
+.listened { text-align: center; z-index: 10; margin-top: 25%; opacity: 0; }
+.listened.animate { animation: fadeUp 0.6s ease-out 0.2s forwards; }
+.listened h1 { font-family: 'Dela Gothic One', sans-serif; font-size: 8vw; color: #fff; line-height: 1.3; }
 
-.center-content {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-}
+/* ===== SCREEN 4 ===== */
+.screen-4 { background: #2A2A2A; padding-top: 50px; }
+.minutes { text-align: center; z-index: 10; margin-top: 18%; opacity: 0; }
+.minutes.animate { animation: fadeUp 0.6s ease-out 0.2s forwards; }
+.minutes .num { font-family: 'Dela Gothic One', sans-serif; font-size: 18vw; color: #7B5CF5; line-height: 1; }
+.minutes p { font-family: 'DM Sans', sans-serif; font-size: 4vw; color: #fff; margin-top: 12px; }
 
-.year-container {
-  opacity: 0;
-  transform: translateX(40px);
-}
+/* ===== SCREEN 5 ===== */
+.screen-5 { background: #2A2A2A; padding-top: 50px; }
+.teaser { text-align: center; z-index: 10; margin-top: 20%; opacity: 0; padding: 0 20px; }
+.teaser.animate { animation: fadeUp 0.6s ease-out 0.2s forwards; }
+.teaser.dark { color: #1a1a1a; }
+.teaser.dark h1, .teaser.dark p { color: #1a1a1a; }
+.teaser p { font-family: 'DM Sans', sans-serif; font-size: 4.5vw; color: #fff; margin-bottom: 12px; }
+.teaser p.bold { font-weight: 700; }
+.teaser p.med { font-weight: 500; margin-bottom: 6px; }
+.teaser h1 { font-family: 'Dela Gothic One', sans-serif; font-size: 14vw; color: #fff; }
 
-.year-container.animate {
-  animation: fadeInRight 0.8s ease-out 0.3s forwards;
-}
+/* ===== SCREEN 6 & 10 ===== */
+.screen-6, .screen-10 { background: #2A2A2A; padding-top: 45px; }
+.section-title { font-family: 'Dela Gothic One', sans-serif; font-size: 5.5vw; padding: 5px 14px; margin: 8px 0 12px; z-index: 10; opacity: 0; }
+.section-title.animate { animation: fadeUp 0.5s ease-out 0.15s forwards; }
+.section-title.white-bg { background: #fff; color: #1a1a1a; }
+.section-title.yellow-bg { background: #F5C518; color: #1a1a1a; }
 
-.year-text {
-  font-family: 'Boogaloo', cursive;
-  font-size: 35vw;
-  color: #FF3C00;
-  line-height: 0.9;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
-}
+.list { display: flex; flex-direction: column; gap: 6px; width: 100%; max-width: 320px; z-index: 10; }
+.list-item { display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateX(50px); }
+.list-item.animate { animation: fadeRight 0.45s ease-out forwards; }
+.list-item .rank { font-family: 'Dela Gothic One', sans-serif; font-size: 7vw; color: #fff; min-width: 32px; text-align: center; }
+.list-item img { width: 48px; height: 48px; object-fit: cover; border-radius: 3px; }
+.list-item .info h3 { font-family: 'Dela Gothic One', sans-serif; font-size: 3.8vw; color: #fff; }
+.list-item .info p { font-family: 'DM Sans', sans-serif; font-size: 3vw; color: #aaa; }
+.list-item .artist-name-tag { font-family: 'Dela Gothic One', sans-serif; font-size: 4vw; color: #1a1a1a; background: #fff; padding: 3px 10px; }
 
-.tap-hint {
-  position: absolute;
-  bottom: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: #1a1a1a;
-  opacity: 0;
-  z-index: 100;
-}
+/* ===== SCREEN 7 ===== */
+.screen-7 { background: #F5F5DC; padding-top: 50px; }
 
-.tap-hint.animate {
-  animation: fadeInOut 2s ease-in-out 1s infinite;
-}
-
-/* ==================== SCREEN 2 ==================== */
-.screen-2 {
-  background: #F5F5DC;
-}
-
-.predicted-title {
-  font-family: "Dela Gothic One", sans-serif;
-  font-size: clamp(22px, 6vw, 36px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin-bottom: 15px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.predicted-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
-}
-
-.year-text-screen2 {
-  position: absolute;
-  bottom: 25%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Boogaloo', cursive;
-  font-size: 28vw;
-  color: #FF3C00;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
-  z-index: 5;
-  opacity: 0;
-}
-
-.year-text-screen2.animate {
-  animation: fadeInUp 0.8s ease-out 0.4s forwards;
-}
-
-/* ==================== SCREEN 3 ==================== */
-.screen-3 {
-  background: #2A2A2A;
-}
-
-.listened-text {
-  text-align: center;
-  z-index: 10;
-  margin-top: 15vh;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.listened-text.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
-}
-
-.listened-text h1 {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(28px, 8vw, 48px);
-  color: #FFFFFF;
-  font-weight: 400;
-  margin: 0;
-  line-height: 1.3;
-}
-
-/* ==================== SCREEN 4 ==================== */
-.screen-4 {
-  background: #2A2A2A;
-}
-
-.minutes-display {
-  text-align: center;
-  z-index: 10;
-  margin-top: 12vh;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.minutes-display.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
-}
-
-.minutes-number {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(50px, 18vw, 120px);
-  color: #7B5CF5;
-  font-weight: 400;
-  margin: 0;
-  line-height: 1;
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.3);
-}
-
-.minutes-text {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(14px, 4vw, 20px);
-  color: #FFFFFF;
-  font-weight: 400;
-  margin-top: 15px;
-  padding: 0 20px;
-}
-
-.minutes-highlight { font-weight: 700; }
-
-/* ==================== SCREEN 5 ==================== */
-.screen-5 {
-  background: #2A2A2A;
-}
-
-.teaser-text, .albums-teaser-text, .artists-teaser-text {
-  text-align: center;
-  z-index: 10;
-  margin-top: 12vh;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.teaser-text.animate,
-.albums-teaser-text.animate,
-.artists-teaser-text.animate {
-  animation: fadeInUp 0.7s ease-out 0.2s forwards;
-}
-
-.teaser-line {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
-  color: #FFFFFF;
-  font-weight: 400;
-  margin: 0 0 15px 0;
-  padding: 0 20px;
-}
-
-.teaser-line.dark { color: #1a1a1a; }
-.teaser-line.light { color: #FFFFFF; }
-
-.teaser-line-bold {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
-  color: #FFFFFF;
-  font-weight: 700;
-  margin: 0 0 20px 0;
-}
-
-.teaser-line-medium {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(16px, 4.5vw, 24px);
-  color: #1a1a1a;
-  font-weight: 500;
-  margin: 0 0 8px 0;
-}
-
-.teaser-line-medium.light { color: #FFFFFF; }
-
-.teaser-number {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(40px, 12vw, 70px);
-  color: #FFFFFF;
-  font-weight: 400;
-  margin: 0;
-}
-
-.top-5-text {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(40px, 12vw, 70px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0;
-}
-
-.top-5-text.light { color: #FFFFFF; }
-
-/* ==================== SCREEN 6 ==================== */
-.screen-6 {
-  background: #2A2A2A;
-}
-
-.screen-6 .screen-content {
-  padding-top: 30px;
-}
-
-.top-songs-title {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(20px, 5.5vw, 32px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 10px 0 15px 0;
-  text-align: center;
-  background: #FFFFFF;
-  padding: 6px 16px;
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.top-songs-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
-}
-
-.songs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
-  z-index: 10;
-}
-
-.song-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  transform: translateX(60px);
-}
-
-.song-item.animate {
-  animation: slideInSong 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.song-rank {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(22px, 6vw, 32px);
-  color: #FFFFFF;
-  min-width: 35px;
-  text-align: center;
-}
-
-.song-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-  border-radius: 3px;
-}
-
-.song-info { display: flex; flex-direction: column; gap: 1px; }
-
-.song-title {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(13px, 3.5vw, 18px);
-  color: #FFFFFF;
-  font-weight: 400;
-  margin: 0;
-}
-
-.song-artist {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 2.5vw, 14px);
-  color: #AAAAAA;
-  font-weight: 400;
-  margin: 0;
-}
-
-/* ==================== SCREEN 7 ==================== */
-.screen-7 {
-  background: #F5F5DC;
-}
-
-/* Flipping Circles */
-.flipping-circles-grid {
-  position: absolute;
-  display: grid;
-  gap: 6px;
-  z-index: 1;
-  bottom: 25px;
-  left: 15px;
-}
-
-.flip-circle {
-  width: 40px;
-  height: 40px;
-  perspective: 800px;
-}
-
-.flip-circle-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  animation: flipCircle 2s ease-in-out infinite;
-}
-
+.flipping-circles-grid { position: absolute; display: grid; gap: 5px; z-index: 2; bottom: 20px; left: 15px; }
+.flip-circle { width: 36px; height: 36px; perspective: 600px; }
+.flip-circle-inner { width: 100%; height: 100%; transform-style: preserve-3d; animation: flip 2s ease-in-out infinite; }
 .flip-circle.yellow .flip-circle-inner { animation-delay: 0s; }
 .flip-circle.black .flip-circle-inner { animation-delay: 1s; }
-
-.flip-circle-front,
-.flip-circle-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  backface-visibility: hidden;
-}
-
+.flip-circle-front, .flip-circle-back { position: absolute; width: 100%; height: 100%; border-radius: 50%; backface-visibility: hidden; }
 .flip-circle.yellow .flip-circle-front { background: #F5C518; }
 .flip-circle.yellow .flip-circle-back { background: #1a1a1a; transform: rotateY(180deg); }
 .flip-circle.black .flip-circle-front { background: #1a1a1a; }
 .flip-circle.black .flip-circle-back { background: #F5C518; transform: rotateY(180deg); }
 
-/* ==================== SCREEN 8 ==================== */
-.screen-8 {
-  background: #F5F5DC;
-}
+/* ===== SCREEN 8 ===== */
+.screen-8 { background: #F5F5DC; padding-top: 40px; }
 
-.screen-8 .screen-content {
-  padding-top: 25px;
-}
-
-.flipping-circles-row {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  width: 100%;
-  overflow: hidden;
-  margin: 8px 0;
-}
-
-.flip-circle-horizontal {
-  width: 45px;
-  height: 45px;
-  perspective: 800px;
-  flex-shrink: 0;
-}
-
-.flip-circle-horizontal .flip-circle-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-}
-
-.flip-circle-horizontal.animate .flip-circle-inner {
-  animation: flipCircle 2s ease-in-out infinite;
-}
-
+.flipping-circles-row { display: flex; justify-content: center; gap: 0; margin: 6px 0; }
+.flip-circle-horizontal { width: 42px; height: 42px; perspective: 600px; }
+.flip-circle-horizontal .flip-circle-inner { width: 100%; height: 100%; transform-style: preserve-3d; }
+.flip-circle-horizontal.animate .flip-circle-inner { animation: flip 2s ease-in-out infinite; }
 .flip-circle-horizontal.yellow .flip-circle-front { background: #F5C518; }
 .flip-circle-horizontal.yellow .flip-circle-back { background: #1a1a1a; transform: rotateY(180deg); }
 .flip-circle-horizontal.black .flip-circle-front { background: #1a1a1a; }
 .flip-circle-horizontal.black .flip-circle-back { background: #F5C518; transform: rotateY(180deg); }
 
-.top-albums-title {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(18px, 5vw, 28px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 8px 0 12px 0;
-  text-align: center;
-  background: #F5C518;
-  padding: 5px 14px;
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-}
+.albums-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; max-width: 240px; margin-bottom: 10px; z-index: 10; }
+.album-img { position: relative; opacity: 0; transform: scale(0.85); }
+.album-img.animate { animation: scaleIn 0.4s ease-out forwards; }
+.album-img img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.album-img span { position: absolute; bottom: 4px; right: 4px; font-family: 'Dela Gothic One', sans-serif; font-size: 12px; color: #fff; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 3px; }
 
-.top-albums-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
-}
+.albums-text { display: flex; gap: 25px; z-index: 10; }
+.albums-text .col { display: flex; flex-direction: column; gap: 6px; }
+.album-item { display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateX(25px); }
+.album-item.animate { animation: fadeRight 0.4s ease-out forwards; }
+.album-item.center { justify-content: center; margin-top: 6px; }
+.album-item .rank { font-family: 'Dela Gothic One', sans-serif; font-size: 5vw; color: #1a1a1a; min-width: 20px; }
+.album-item h3 { font-family: 'Dela Gothic One', sans-serif; font-size: 3.2vw; color: #1a1a1a; }
+.album-item p { font-family: 'DM Sans', sans-serif; font-size: 2.6vw; color: #666; }
 
-.albums-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 4px;
-  max-width: 260px;
-  margin: 0 auto 12px auto;
-  z-index: 10;
-}
+/* ===== SCREEN 9 ===== */
+.screen-9 { background: #2A2A2A; padding-top: 50px; }
 
-.album-image-item {
-  position: relative;
-  opacity: 0;
-  transform: scale(0.8);
-}
+/* ===== SCREEN 11 ===== */
+.screen-11 { background: #F5F5DC; padding-top: 15px; }
+.big-year { position: absolute; left: -6%; top: 50%; transform: translateY(-50%); font-family: 'Boogaloo', cursive; font-size: 38vw; color: #F5C518; writing-mode: vertical-rl; text-orientation: mixed; line-height: 0.8; z-index: 1; -webkit-text-stroke: 2px #1a1a1a; opacity: 0; }
+.big-year.animate { animation: fadeLeft 0.7s ease-out forwards; }
 
-.album-image-item.animate {
-  animation: scaleIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
+.summary { display: flex; flex-direction: column; align-items: center; z-index: 10; width: 100%; }
+.main-img { margin-bottom: 12px; opacity: 0; transform: scale(0.85); }
+.main-img.animate { animation: scaleIn 0.6s ease-out 0.2s forwards; }
+.main-img img { width: 38vw; max-width: 160px; aspect-ratio: 1; object-fit: cover; border: 4px solid #fff; box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
 
-.album-image-item img {
-  width: 100%;
-  max-width: 128px;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: cover;
-}
+.cols { display: flex; gap: 30px; margin-bottom: 12px; }
+.cols .col { text-align: left; }
+.cols h3 { font-family: 'DM Sans', sans-serif; font-size: 3vw; color: #1a1a1a; margin-bottom: 4px; opacity: 0; }
+.cols h3.animate { animation: fadeUp 0.4s ease-out 0.25s forwards; }
+.cols ul { list-style: none; }
+.cols li { font-family: 'Dela Gothic One', sans-serif; font-size: 3.5vw; color: #1a1a1a; line-height: 1.5; opacity: 0; transform: translateX(15px); }
+.cols li.animate { animation: fadeRight 0.35s ease-out forwards; }
 
-.album-number {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: 14px;
-  color: #FFFFFF;
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2px 6px;
-  border-radius: 3px;
-}
+.final-mins { text-align: center; opacity: 0; }
+.final-mins.animate { animation: fadeUp 0.5s ease-out 0.7s forwards; }
+.final-mins p { font-family: 'DM Sans', sans-serif; font-size: 3vw; color: #1a1a1a; }
+.final-mins h2 { font-family: 'Dela Gothic One', sans-serif; font-size: 10vw; color: #1a1a1a; }
 
-.albums-list {
-  display: flex;
-  justify-content: center;
-  gap: 30px;
-  width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
-  z-index: 10;
-}
-
-.albums-list-left, .albums-list-right {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.album-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  opacity: 0;
-  transform: translateX(30px);
-}
-
-.album-item.animate {
-  animation: slideInSong 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.album-item-center {
-  justify-content: center;
-  margin-top: 8px;
-}
-
-.album-rank {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(18px, 5vw, 26px);
-  color: #1a1a1a;
-  min-width: 22px;
-}
-
-.album-info { display: flex; flex-direction: column; gap: 1px; }
-
-.album-name {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(12px, 3vw, 16px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0;
-}
-
-.album-artist {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(10px, 2.5vw, 13px);
-  color: #666666;
-  font-weight: 400;
-  margin: 0;
-}
-
-/* ==================== SCREEN 9 ==================== */
-.screen-9 {
-  background: #2A2A2A;
-}
-
-/* ==================== SCREEN 10 ==================== */
-.screen-10 {
-  background: #2A2A2A;
-}
-
-.screen-10 .screen-content {
-  padding-top: 30px;
-}
-
-.top-artists-title {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(20px, 5.5vw, 32px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 10px 0 15px 0;
-  text-align: center;
-  background: #FFFFFF;
-  padding: 6px 16px;
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-.top-artists-title.animate {
-  animation: fadeInUp 0.6s ease-out 0.2s forwards;
-}
-
-.artists-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  max-width: 340px;
-  padding: 0 15px;
-  z-index: 10;
-}
-
-.artist-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  opacity: 0;
-  transform: translateX(60px);
-}
-
-.artist-item.animate {
-  animation: slideInSong 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.artist-rank {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(22px, 6vw, 32px);
-  color: #FFFFFF;
-  min-width: 35px;
-  text-align: center;
-}
-
-.artist-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
-}
-
-.artist-name {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(14px, 4vw, 20px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0;
-  background: #FFFFFF;
-  padding: 3px 10px;
-  display: inline-block;
-}
-
-/* ==================== SCREEN 11 - SUMMARY ==================== */
-.screen-11 {
-  background: #F5F5DC;
-  overflow: hidden;
-}
-
-.summary-year-text {
-  position: absolute;
-  left: -8%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-family: 'Boogaloo', cursive;
-  font-size: clamp(140px, 45vw, 280px);
-  color: #F5C518;
-  line-height: 0.8;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  letter-spacing: -0.05em;
-  z-index: 1;
-  -webkit-text-stroke: 2px #1a1a1a;
-  text-stroke: 2px #1a1a1a;
-  paint-order: stroke fill;
-  opacity: 0;
-}
-
-.summary-year-text.animate {
-  animation: fadeInLeft 0.8s ease-out forwards;
-}
-
-.summary-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 15px 15px 20px;
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-}
-
-.summary-image-container {
-  margin-bottom: 15px;
-  opacity: 0;
-  transform: scale(0.8);
-}
-
-.summary-image-container.animate {
-  animation: scaleIn 0.7s ease-out 0.2s forwards;
-}
-
-.summary-main-image {
-  width: clamp(140px, 40vw, 200px);
-  height: clamp(140px, 40vw, 200px);
-  object-fit: cover;
-  border: 5px solid #FFFFFF;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.summary-lists {
-  display: flex;
-  justify-content: center;
-  gap: clamp(25px, 10vw, 60px);
-  width: 100%;
-  max-width: 340px;
-  padding: 0 10px;
-  margin-bottom: 15px;
-}
-
-.summary-column {
-  text-align: left;
-}
-
-.summary-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 3vw, 14px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0 0 6px 0;
-  opacity: 0;
-  transform: translateY(15px);
-}
-
-.summary-label.animate {
-  animation: fadeInUp 0.5s ease-out 0.3s forwards;
-}
-
-.summary-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.summary-item {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(12px, 3.5vw, 16px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0;
-  line-height: 1.5;
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.summary-item.animate {
-  animation: slideInSong 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.summary-minutes {
-  text-align: center;
-  opacity: 0;
-  transform: translateY(15px);
-}
-
-.summary-minutes.animate {
-  animation: fadeInUp 0.6s ease-out 0.8s forwards;
-}
-
-.summary-minutes-label {
-  font-family: 'DM Sans', sans-serif;
-  font-size: clamp(11px, 3vw, 14px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0 0 4px 0;
-}
-
-.summary-minutes-number {
-  font-family: 'Dela Gothic One', sans-serif;
-  font-size: clamp(32px, 10vw, 55px);
-  color: #1a1a1a;
-  font-weight: 400;
-  margin: 0;
-}
-
-/* ==================== SVG LINES ==================== */
-.pencil-lines,
-.curved-lines,
-.purple-curved-lines,
-.white-curved-lines,
-.purple-single-line,
-.white-arc,
-.black-curved-lines,
-.white-swoosh-line,
-.summary-lines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.pencil-line,
-.curved-line,
-.purple-line,
-.white-line,
-.purple-line-single,
-.arc-line,
-.black-line,
-.white-swoosh,
-.summary-line {
-  stroke-dasharray: 1500;
-  stroke-dashoffset: 1500;
-  opacity: 0.6;
-}
-
-.screens-wrapper.screen-1 .pencil-line { animation: drawLine 2s ease-out 0.5s forwards; }
-.screens-wrapper.screen-2 .curved-line { animation: drawLine 1.8s ease-out 0.3s forwards; }
-.screens-wrapper.screen-3 .purple-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-4 .white-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-5 .purple-line-single { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-6 .arc-line { animation: drawLine 1.5s ease-out 0.2s forwards; }
-.screens-wrapper.screen-7 .black-line { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-9 .purple-line-single { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-10 .white-swoosh { animation: drawLine 2s ease-out 0.3s forwards; }
-.screens-wrapper.screen-11 .summary-line { animation: drawLine 2s ease-out 0.3s forwards; }
-
-/* White Arc specific */
-.white-arc {
-  height: 120px;
-}
-
-/* ==================== RESPONSIVE ==================== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 380px) {
-  .year-text { font-size: 40vw; }
-  .song-image, .artist-image { width: 45px; height: 45px; }
-  .albums-grid { max-width: 220px; }
-  .summary-main-image { width: 130px; height: 130px; }
-  .flip-circle { width: 35px; height: 35px; }
-  .flip-circle-horizontal { width: 40px; height: 40px; }
+  .year-text { font-size: 36vw; }
+  .list-item img { width: 42px; height: 42px; }
+  .flip-circle { width: 32px; height: 32px; }
+  .flip-circle-horizontal { width: 38px; height: 38px; }
+  .albums-grid { max-width: 200px; }
 }
 
-@media (min-height: 800px) {
-  .screen-content { padding-top: 50px; }
-  .listened-text { margin-top: 18vh; }
-  .minutes-display { margin-top: 15vh; }
-  .teaser-text, .albums-teaser-text, .artists-teaser-text { margin-top: 15vh; }
-}
-
-@media (max-height: 650px) {
-  .screen-content { padding-top: 25px; }
-  .listened-text { margin-top: 8vh; }
-  .minutes-display { margin-top: 8vh; }
-  .teaser-text, .albums-teaser-text, .artists-teaser-text { margin-top: 8vh; }
-  .song-image, .artist-image { width: 42px; height: 42px; }
-  .songs-list, .artists-list { gap: 4px; }
-  .albums-grid { max-width: 200px; gap: 3px; }
-  .summary-main-image { width: 120px; height: 120px; }
+@media (min-width: 430px) {
+  .list-item .info h3 { font-size: 16px; }
+  .list-item .info p { font-size: 12px; }
+  .list-item .rank { font-size: 28px; }
+  .teaser p { font-size: 18px; }
+  .teaser h1 { font-size: 56px; }
+  .title { font-size: 28px; }
+  .section-title { font-size: 22px; }
+  .listened h1 { font-size: 34px; }
+  .minutes .num { font-size: 72px; }
+  .minutes p { font-size: 16px; }
+  .cols h3 { font-size: 12px; }
+  .cols li { font-size: 14px; }
+  .final-mins p { font-size: 12px; }
+  .final-mins h2 { font-size: 42px; }
 }
