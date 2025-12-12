@@ -51,6 +51,7 @@ const artistsData = [
   { name: "Rsko", image: rskoImg }
 ];
 
+// Map song data with artist and image
 const topSongs = [
   { ...songsData[0], artist: "Rsko", image: peckhamImg },
   { ...songsData[1], artist: "Tory Lanez", image: toryImg },
@@ -62,27 +63,27 @@ const topSongs = [
 // Wavy Checkerboard
 const WavyCheckerboard = ({ position, flipped }) => {
   const generateWavyPath = () => {
-    const rows = 8;
-    const cols = 16;
-    const cellWidth = 45;
-    const cellHeight = 30;
+    const rows = 12;
+    const cols = 24;
+    const cellWidth = 55;
+    const cellHeight = 35;
     const paths = [];
     
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         if ((row + col) % 2 === 0) {
-          const baseX = col * cellWidth - 50;
+          const baseX = col * cellWidth - 100;
           const baseY = row * cellHeight;
           
           const waveX = (x, y) => {
-            const wave1 = Math.sin((y / 60) + (x / 150)) * 20;
-            const wave2 = Math.sin((x / 120) + (y / 80)) * 12;
+            const wave1 = Math.sin((y / 80) + (x / 200)) * 25;
+            const wave2 = Math.sin((x / 150) + (y / 100)) * 15;
             return x + wave1 + wave2;
           };
           
           const waveY = (x, y) => {
-            const wave1 = Math.sin((x / 100) + (y / 60)) * 15;
-            const wave2 = Math.cos((y / 150) + (x / 120)) * 8;
+            const wave1 = Math.sin((x / 120) + (y / 80)) * 20;
+            const wave2 = Math.cos((y / 200) + (x / 150)) * 10;
             return y + wave1 + wave2;
           };
           
@@ -104,31 +105,14 @@ const WavyCheckerboard = ({ position, flipped }) => {
     return paths;
   };
 
-  React.useEffect(() => {
-  // Fix for iOS Safari viewport height
-  const setVH = () => {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  };
-  
-  setVH();
-  window.addEventListener('resize', setVH);
-  window.addEventListener('orientationchange', setVH);
-  
-  return () => {
-    window.removeEventListener('resize', setVH);
-    window.removeEventListener('orientationchange', setVH);
-  };
-}, []);
-  
-return (
+  return (
     <div className={`checkerboard-container ${position} ${flipped ? 'flipped' : ''}`}>
       <svg 
-        viewBox="0 0 700 240" 
+        viewBox="0 0 1200 420" 
         preserveAspectRatio="xMidYMid slice"
         className="checkerboard-svg"
       >
-        <rect x="-100" y="-30" width="900" height="350" fill="#F5F5DC"/>
+        <rect x="-200" y="-50" width="1600" height="600" fill="#F5F5DC"/>
         {generateWavyPath()}
       </svg>
     </div>
@@ -138,10 +122,10 @@ return (
 // Small Checkerboard for corners
 const SmallCheckerboard = ({ position = 'bottom-right' }) => {
   const generateWavyPath = () => {
-    const rows = 4;
-    const cols = 5;
-    const cellWidth = 40;
-    const cellHeight = 28;
+    const rows = 6;
+    const cols = 8;
+    const cellWidth = 55;
+    const cellHeight = 35;
     const paths = [];
     
     for (let row = 0; row < rows; row++) {
@@ -151,12 +135,12 @@ const SmallCheckerboard = ({ position = 'bottom-right' }) => {
           const baseY = row * cellHeight;
           
           const waveX = (x, y) => {
-            const wave1 = Math.sin((y / 60) + (x / 150)) * 15;
+            const wave1 = Math.sin((y / 80) + (x / 200)) * 20;
             return x + wave1;
           };
           
           const waveY = (x, y) => {
-            const wave1 = Math.sin((x / 100) + (y / 60)) * 12;
+            const wave1 = Math.sin((x / 120) + (y / 80)) * 15;
             return y + wave1;
           };
           
@@ -181,11 +165,11 @@ const SmallCheckerboard = ({ position = 'bottom-right' }) => {
   return (
     <div className={`small-checkerboard ${position}`}>
       <svg 
-        viewBox="0 0 200 112" 
+        viewBox="0 0 440 210" 
         preserveAspectRatio="xMidYMid slice"
         className="checkerboard-svg"
       >
-        <rect x="-30" y="-30" width="280" height="200" fill="#F5F5DC"/>
+        <rect x="-50" y="-50" width="540" height="310" fill="#F5F5DC"/>
         {generateWavyPath()}
       </svg>
     </div>
@@ -193,7 +177,7 @@ const SmallCheckerboard = ({ position = 'bottom-right' }) => {
 };
 
 // Flipping Circles Grid
-const FlippingCircles = ({ position = 'bottom-left', rows = 3, cols = 5 }) => {
+const FlippingCircles = ({ position = 'bottom-left', rows = 3, cols = 6 }) => {
   const circles = [];
   
   for (let row = 0; row < rows; row++) {
@@ -228,7 +212,7 @@ const FlippingCircles = ({ position = 'bottom-left', rows = 3, cols = 5 }) => {
 // Horizontal Flipping Circles Row
 const FlippingCirclesRow = ({ isActive }) => {
   const circles = [];
-  const totalCircles = 8;
+  const totalCircles = 14;
   
   for (let i = 0; i < totalCircles; i++) {
     const delay = i * 0.15;
@@ -288,67 +272,82 @@ const SpotifyLogo = ({ size = 'normal', onClick, clickable, variant = 'dark' }) 
   </svg>
 );
 
-// SVG Line Components
+// Pencil Lines for Screen 1
 const PencilLines = () => (
-  <svg className="pencil-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="pencil-line line-1" d="M-20 250 Q100 230 200 270 T420 300" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <path className="pencil-line line-2" d="M-20 350 Q150 370 250 330 T420 360" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <ellipse className="pencil-line line-3" cx="200" cy="400" rx="150" ry="80" stroke="#1a1a1a" strokeWidth="1.5" fill="none" transform="rotate(-5 200 400)"/>
+  <svg className="pencil-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="pencil-line line-1" d="M-50 300 Q200 280 400 320 T800 290 T1250 350" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="pencil-line line-2" d="M-50 400 Q300 420 500 380 T900 420 T1250 380" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="pencil-line line-3" d="M-50 500 Q250 480 450 520 T850 490 T1250 530" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <ellipse className="pencil-line line-4" cx="600" cy="400" rx="280" ry="120" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(-5 600 400)"/>
+    <ellipse className="pencil-line line-5" cx="600" cy="400" rx="320" ry="140" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(3 600 400)"/>
   </svg>
 );
 
+// Curved Lines for Screen 2
 const CurvedLines = () => (
-  <svg className="curved-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="curved-line line-1" d="M-20 180 Q200 280 300 180 T420 220" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <ellipse className="curved-line line-2" cx="200" cy="350" rx="180" ry="120" stroke="#1a1a1a" strokeWidth="1.5" fill="none" transform="rotate(-5 200 350)"/>
+  <svg className="curved-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="curved-line line-1" d="M-50 200 Q400 350 600 200 T1250 250" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="curved-line line-2" d="M-50 250 Q300 450 700 280 T1250 350" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <ellipse className="curved-line line-3" cx="600" cy="350" rx="450" ry="200" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(-8 600 350)"/>
+    <ellipse className="curved-line line-4" cx="600" cy="350" rx="500" ry="230" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(5 600 350)"/>
   </svg>
 );
 
+// Purple Curved Lines for Screen 3
 const PurpleCurvedLines = () => (
-  <svg className="purple-curved-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="purple-line line-1" d="M-20 120 Q200 220 300 120 T420 160" stroke="#7B5CF5" strokeWidth="1.5" fill="none"/>
-    <ellipse className="purple-line line-2" cx="200" cy="400" rx="200" ry="180" stroke="#7B5CF5" strokeWidth="1.5" fill="none" transform="rotate(-5 200 400)"/>
+  <svg className="purple-curved-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="purple-line line-1" d="M-50 150 Q400 300 700 150 T1250 200" stroke="#7B5CF5" strokeWidth="2" fill="none"/>
+    <ellipse className="purple-line line-2" cx="600" cy="450" rx="550" ry="350" stroke="#7B5CF5" strokeWidth="2" fill="none" transform="rotate(-5 600 450)"/>
   </svg>
 );
 
+// White Curved Lines for Screen 4
 const WhiteCurvedLines = () => (
-  <svg className="white-curved-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="white-line line-1" d="M-50 80 Q100 250 200 150 T450 200" stroke="#FFFFFF" strokeWidth="1.5" fill="none"/>
-    <ellipse className="white-line line-2" cx="200" cy="400" rx="180" ry="150" stroke="#FFFFFF" strokeWidth="1.5" fill="none" transform="rotate(-8 200 400)"/>
+  <svg className="white-curved-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="white-line line-1" d="M-100 100 Q200 400 500 200 T1300 300" stroke="#FFFFFF" strokeWidth="2" fill="none"/>
+    <path className="white-line line-2" d="M-50 600 Q400 300 700 500 T1250 400" stroke="#FFFFFF" strokeWidth="2" fill="none"/>
+    <ellipse className="white-line line-3" cx="600" cy="400" rx="500" ry="300" stroke="#FFFFFF" strokeWidth="2" fill="none" transform="rotate(-10 600 400)"/>
   </svg>
 );
 
+// Purple Line for Screen 5 & 9
 const PurpleSingleLine = () => (
-  <svg className="purple-single-line" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="purple-line-single" d="M-50 0 Q50 300 150 400 T-50 800" stroke="#7B5CF5" strokeWidth="1.5" fill="none"/>
+  <svg className="purple-single-line" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="purple-line-single" d="M-100 0 Q100 400 300 500 T-100 800" stroke="#7B5CF5" strokeWidth="2" fill="none"/>
   </svg>
 );
 
+// White Arc for Screen 6
 const WhiteArc = () => (
-  <svg className="white-arc" viewBox="0 0 400 150" preserveAspectRatio="xMidYMin slice">
-    <path className="arc-line" d="M0 150 Q200 -50 400 150" stroke="#FFFFFF" strokeWidth="1.5" fill="none"/>
+  <svg className="white-arc" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMin slice">
+    <path className="arc-line" d="M0 200 Q600 -100 1200 200" stroke="#FFFFFF" strokeWidth="2" fill="none"/>
   </svg>
 );
 
+// Black Curved Lines for Screen 7
 const BlackCurvedLines = () => (
-  <svg className="black-curved-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="black-line line-1" d="M-20 40 Q80 150 50 300 T-20 550" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <path className="black-line line-2" d="M420 80 Q320 200 350 380 T420 600" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <ellipse className="black-line line-3" cx="220" cy="400" rx="180" ry="120" stroke="#1a1a1a" strokeWidth="1.5" fill="none" transform="rotate(8 220 400)"/>
+  <svg className="black-curved-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="black-line line-1" d="M-50 50 Q200 200 100 400 T-50 700" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="black-line line-2" d="M50 -50 Q300 150 200 350 T50 650" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="black-line line-3" d="M1250 100 Q900 300 1000 500 T1250 750" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <ellipse className="black-line line-4" cx="700" cy="450" rx="500" ry="280" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(10 700 450)"/>
   </svg>
 );
 
+// White Swoosh Line for Screen 10
 const WhiteSwooshLine = () => (
-  <svg className="white-swoosh-line" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="white-swoosh" d="M420 40 Q300 80 280 250 T420 500" stroke="#FFFFFF" strokeWidth="1.5" fill="none"/>
+  <svg className="white-swoosh-line" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="white-swoosh" d="M1300 50 Q900 100 800 300 T1300 600" stroke="#FFFFFF" strokeWidth="2" fill="none"/>
   </svg>
 );
 
+// Summary Screen Lines
 const SummaryLines = () => (
-  <svg className="summary-lines" viewBox="0 0 400 800" preserveAspectRatio="xMidYMid slice">
-    <path className="summary-line line-1" d="M80 -20 Q100 150 60 300 T100 600" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <path className="summary-line line-2" d="M350 -20 Q380 100 340 280 T380 500" stroke="#1a1a1a" strokeWidth="1.5" fill="none"/>
-    <ellipse className="summary-line line-3" cx="60" cy="350" rx="50" ry="180" stroke="#1a1a1a" strokeWidth="1.5" fill="none" transform="rotate(-8 60 350)"/>
+  <svg className="summary-lines" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path className="summary-line line-1" d="M200 -50 Q250 200 150 400 T250 850" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="summary-line line-2" d="M1000 -50 Q1100 150 950 350 T1050 600" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <path className="summary-line line-3" d="M400 750 Q700 700 1000 780" stroke="#1a1a1a" strokeWidth="2" fill="none"/>
+    <ellipse className="summary-line line-4" cx="150" cy="400" rx="100" ry="300" stroke="#1a1a1a" strokeWidth="2" fill="none" transform="rotate(-10 150 400)"/>
   </svg>
 );
 
@@ -368,60 +367,66 @@ const useCountUp = (end, duration = 2000, start = 0, active = false) => {
     const animate = (timestamp) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
+      
       const easeOutQuart = 1 - Math.pow(1 - progress, 4);
       const currentCount = Math.floor(start + (end - start) * easeOutQuart);
+      
       setCount(currentCount);
+      
       if (progress < 1) {
         animationFrame = requestAnimationFrame(animate);
       }
     };
     
     animationFrame = requestAnimationFrame(animate);
+    
     return () => cancelAnimationFrame(animationFrame);
   }, [end, duration, start, active]);
   
   return count;
 };
 
-// Screen Components
-const Screen1 = ({ isActive }) => (
+// Screen 1: Intro with 2026
+const Screen1 = ({ onLogoClick }) => (
   <div className="screen screen-1">
     <WavyCheckerboard position="top" />
     <WavyCheckerboard position="bottom" />
     <PencilLines />
     <div className="center-content">
-      <div className={`spotify-logo-container ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="large" />
+      <div className="spotify-logo-container">
+        <SpotifyLogo size="large" onClick={onLogoClick} clickable={true} />
       </div>
-      <div className={`year-container ${isActive ? 'animate' : ''}`}>
+      <div className="year-container">
         <span className="year-text">2026</span>
       </div>
     </div>
-    <div className={`tap-hint ${isActive ? 'animate' : ''}`}>Swipe to continue</div>
+    <div className="tap-hint">Tap logo to continue</div>
   </div>
 );
 
-const Screen2 = ({ isActive }) => (
+// Screen 2: Your Predicted Wrap
+const Screen2 = ({ onLogoClick }) => (
   <div className="screen screen-2">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" />
+    <div className="screen2-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" onClick={onLogoClick} clickable={true} />
       </div>
-      <h1 className={`predicted-title ${isActive ? 'animate' : ''}`}>Your Predicted Wrap</h1>
+      <h1 className="predicted-title">Your Predicted Wrap</h1>
       <CurvedLines />
-      <div className={`year-text-screen2 ${isActive ? 'animate' : ''}`}>2026</div>
+      <div className="year-text-screen2">2026</div>
     </div>
     <WavyCheckerboard position="bottom-only" flipped={true} />
   </div>
 );
 
-const Screen3 = ({ isActive }) => (
+// Screen 3: You listened. We counted.
+const Screen3 = ({ onLogoClick }) => (
   <div className="screen screen-3">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" variant="light" />
+    <div className="screen3-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
       </div>
-      <div className={`listened-text ${isActive ? 'animate' : ''}`}>
+      <div className="listened-text">
         <h1>You listened.</h1>
         <h1>We counted.</h1>
       </div>
@@ -431,19 +436,21 @@ const Screen3 = ({ isActive }) => (
   </div>
 );
 
-const Screen4 = ({ isActive }) => {
+// Screen 4: Minutes listened
+const Screen4 = ({ onLogoClick, isActive }) => {
   const totalMinutes = Math.round(minutesData.minutes);
   const displayCount = useCountUp(totalMinutes, 2500, 0, isActive);
+  
   const formattedCount = displayCount.toLocaleString();
   const formattedTotal = totalMinutes.toLocaleString();
   
   return (
     <div className="screen screen-4">
-      <div className="screen-content">
-        <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-          <SpotifyLogo size="small" variant="light" />
+      <div className="screen4-content">
+        <div className="spotify-logo-container small">
+          <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
         </div>
-        <div className={`minutes-display ${isActive ? 'animate' : ''}`}>
+        <div className="minutes-display">
           <h1 className="minutes-number">{formattedCount}</h1>
           <p className="minutes-text">
             You're predicted to listen for <span className="minutes-highlight">{formattedTotal}</span> minutes
@@ -456,13 +463,14 @@ const Screen4 = ({ isActive }) => {
   );
 };
 
-const Screen5 = ({ isActive }) => (
+// Screen 5: Songs teaser
+const Screen5 = ({ onLogoClick }) => (
   <div className="screen screen-5">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" variant="light" />
+    <div className="screen5-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
       </div>
-      <div className={`teaser-text ${isActive ? 'animate' : ''}`}>
+      <div className="teaser-text">
         <p className="teaser-line">You're predicted to listen to many songs</p>
         <p className="teaser-line-bold">But can you guess?</p>
         <h1 className="teaser-number">#1</h1>
@@ -473,20 +481,21 @@ const Screen5 = ({ isActive }) => (
   </div>
 );
 
-const Screen6 = ({ isActive }) => (
+// Screen 6: Top Songs
+const Screen6 = ({ onLogoClick, isActive }) => (
   <div className="screen screen-6">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" variant="light" />
+    <div className="screen6-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
       </div>
       <WhiteArc />
-      <h1 className={`top-songs-title ${isActive ? 'animate' : ''}`}>Your top songs</h1>
+      <h1 className="top-songs-title">Your top songs</h1>
       <div className="songs-list">
         {topSongs.map((song, index) => (
           <div 
             key={index} 
             className={`song-item ${isActive ? 'animate' : ''}`}
-            style={{ animationDelay: `${0.3 + index * 0.12}s` }}
+            style={{ animationDelay: `${0.3 + index * 0.15}s` }}
           >
             <span className="song-rank">{index + 1}</span>
             <img src={song.image} alt={song.track_name} className="song-image" />
@@ -502,37 +511,39 @@ const Screen6 = ({ isActive }) => (
   </div>
 );
 
-const Screen7 = ({ isActive }) => (
+// Screen 7: Albums teaser
+const Screen7 = ({ onLogoClick, isActive }) => (
   <div className="screen screen-7">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" />
+    <div className="screen7-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" onClick={onLogoClick} clickable={true} />
       </div>
-      <div className={`albums-teaser-text ${isActive ? 'animate' : ''}`}>
+      <div className="albums-teaser-text">
         <p className="teaser-line dark">You're predicted to listen to many albums</p>
         <p className="teaser-line-medium">These are your</p>
         <h1 className="top-5-text">Top 5</h1>
       </div>
       <BlackCurvedLines />
     </div>
-    <FlippingCircles position="bottom-left" rows={3} cols={5} />
+    <FlippingCircles position="bottom-left" rows={3} cols={6} />
   </div>
 );
 
-const Screen8 = ({ isActive }) => (
+// Screen 8: Top Albums
+const Screen8 = ({ onLogoClick, isActive }) => (
   <div className="screen screen-8">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" />
+    <div className="screen8-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" onClick={onLogoClick} clickable={true} />
       </div>
       <FlippingCirclesRow isActive={isActive} />
-      <h1 className={`top-albums-title ${isActive ? 'animate' : ''}`}>Your top albums</h1>
+      <h1 className="top-albums-title">Your top songs</h1>
       <div className="albums-grid">
         {albumsData.slice(0, 4).map((album, index) => (
           <div 
             key={index} 
             className={`album-image-item ${isActive ? 'animate' : ''}`}
-            style={{ animationDelay: `${0.3 + index * 0.15}s` }}
+            style={{ animationDelay: `${0.3 + index * 0.2}s` }}
           >
             <img src={album.image} alt={album.name} />
             <span className="album-number">{index + 1}</span>
@@ -541,14 +552,14 @@ const Screen8 = ({ isActive }) => (
       </div>
       <div className="albums-list">
         <div className="albums-list-left">
-          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '0.9s' }}>
+          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.1s' }}>
             <span className="album-rank">1</span>
             <div className="album-info">
               <h3 className="album-name">{albumsData[0].name}</h3>
               <p className="album-artist">{albumsData[0].artist}</p>
             </div>
           </div>
-          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.1s' }}>
+          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.3s' }}>
             <span className="album-rank">3</span>
             <div className="album-info">
               <h3 className="album-name">{albumsData[2].name}</h3>
@@ -557,14 +568,14 @@ const Screen8 = ({ isActive }) => (
           </div>
         </div>
         <div className="albums-list-right">
-          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1s' }}>
+          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.2s' }}>
             <span className="album-rank">2</span>
             <div className="album-info">
               <h3 className="album-name">{albumsData[1].name}</h3>
               <p className="album-artist">{albumsData[1].artist}</p>
             </div>
           </div>
-          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.2s' }}>
+          <div className={`album-item ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.4s' }}>
             <span className="album-rank">4</span>
             <div className="album-info">
               <h3 className="album-name">{albumsData[3].name}</h3>
@@ -573,7 +584,7 @@ const Screen8 = ({ isActive }) => (
           </div>
         </div>
       </div>
-      <div className={`album-item album-item-center ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.3s' }}>
+      <div className={`album-item album-item-center ${isActive ? 'animate' : ''}`} style={{ animationDelay: '1.5s' }}>
         <span className="album-rank">5</span>
         <div className="album-info">
           <h3 className="album-name">{albumsData[4].name}</h3>
@@ -584,13 +595,14 @@ const Screen8 = ({ isActive }) => (
   </div>
 );
 
-const Screen9 = ({ isActive }) => (
+// Screen 9: Artists teaser
+const Screen9 = ({ onLogoClick }) => (
   <div className="screen screen-9">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" variant="light" />
+    <div className="screen9-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
       </div>
-      <div className={`artists-teaser-text ${isActive ? 'animate' : ''}`}>
+      <div className="artists-teaser-text">
         <p className="teaser-line light">You're predicted to listen to many artists this year</p>
         <p className="teaser-line-medium light">Here are the</p>
         <h1 className="top-5-text light">Top 5</h1>
@@ -601,19 +613,20 @@ const Screen9 = ({ isActive }) => (
   </div>
 );
 
-const Screen10 = ({ isActive }) => (
+// Screen 10: Top Artists
+const Screen10 = ({ onLogoClick, isActive }) => (
   <div className="screen screen-10">
-    <div className="screen-content">
-      <div className={`spotify-logo-container small ${isActive ? 'animate' : ''}`}>
-        <SpotifyLogo size="small" variant="light" />
+    <div className="screen10-content">
+      <div className="spotify-logo-container small">
+        <SpotifyLogo size="small" variant="light" onClick={onLogoClick} clickable={true} />
       </div>
-      <h1 className={`top-artists-title ${isActive ? 'animate' : ''}`}>Your top artists</h1>
+      <h1 className="top-artists-title">Your top artists</h1>
       <div className="artists-list">
         {artistsData.map((artist, index) => (
           <div 
             key={index} 
             className={`artist-item ${isActive ? 'animate' : ''}`}
-            style={{ animationDelay: `${0.3 + index * 0.12}s` }}
+            style={{ animationDelay: `${0.3 + index * 0.15}s` }}
           >
             <span className="artist-rank">{index + 1}</span>
             <img src={artist.image} alt={artist.name} className="artist-image" />
@@ -628,26 +641,27 @@ const Screen10 = ({ isActive }) => (
   </div>
 );
 
+// Screen 11: Summary
 const Screen11 = ({ isActive }) => {
   const totalMinutes = Math.round(minutesData.minutes);
   const formattedMinutes = totalMinutes.toLocaleString();
   
   return (
     <div className="screen screen-11">
-      <div className={`summary-year-text ${isActive ? 'animate' : ''}`}>2026</div>
+      <div className="summary-year-text">2026</div>
       <div className="summary-content">
-        <div className={`summary-image-container ${isActive ? 'animate' : ''}`}>
-          <img src={jhusImg} alt="J Hus" className="summary-main-image" />
+        <div className="summary-image-container">
+          <img src={jhusImg} alt="J Hus" className={`summary-main-image ${isActive ? 'animate' : ''}`} />
         </div>
         <div className="summary-lists">
           <div className="summary-column">
-            <h3 className={`summary-label ${isActive ? 'animate' : ''}`}>Top Artists</h3>
+            <h3 className="summary-label">Top Artists</h3>
             <ul className="summary-items">
               {artistsData.map((artist, index) => (
                 <li 
                   key={index} 
                   className={`summary-item ${isActive ? 'animate' : ''}`}
-                  style={{ animationDelay: `${0.4 + index * 0.08}s` }}
+                  style={{ animationDelay: `${0.5 + index * 0.1}s` }}
                 >
                   {artist.name}
                 </li>
@@ -655,13 +669,13 @@ const Screen11 = ({ isActive }) => {
             </ul>
           </div>
           <div className="summary-column">
-            <h3 className={`summary-label ${isActive ? 'animate' : ''}`}>Top Songs</h3>
+            <h3 className="summary-label">Top Songs</h3>
             <ul className="summary-items">
               {songsData.map((song, index) => (
                 <li 
                   key={index} 
                   className={`summary-item ${isActive ? 'animate' : ''}`}
-                  style={{ animationDelay: `${0.4 + index * 0.08}s` }}
+                  style={{ animationDelay: `${0.5 + index * 0.1}s` }}
                 >
                   {song.track_name}
                 </li>
@@ -681,99 +695,38 @@ const Screen11 = ({ isActive }) => {
 };
 
 function App() {
+  const [animationStarted, setAnimationStarted] = React.useState(false);
   const [currentScreen, setCurrentScreen] = React.useState(1);
-  const [touchStart, setTouchStart] = React.useState(null);
-  const [touchEnd, setTouchEnd] = React.useState(null);
-  const [isTransitioning, setIsTransitioning] = React.useState(false);
-  
-  const minSwipeDistance = 50;
-  const totalScreens = 11;
+  const [transitioning, setTransitioning] = React.useState(false);
 
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientY);
-  };
+  React.useEffect(() => {
+    setTimeout(() => setAnimationStarted(true), 100);
+  }, []);
 
-  const onTouchMove = (e) => {
-    setTouchEnd(e.targetTouches[0].clientY);
-  };
-
-  const onTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-    
-    const distance = touchStart - touchEnd;
-    const isSwipeUp = distance > minSwipeDistance;
-    const isSwipeDown = distance < -minSwipeDistance;
-    
-    if (isTransitioning) return;
-    
-    if (isSwipeUp && currentScreen < totalScreens) {
-      setIsTransitioning(true);
-      setCurrentScreen(prev => prev + 1);
-      setTimeout(() => setIsTransitioning(false), 800);
-    }
-    
-    if (isSwipeDown && currentScreen > 1) {
-      setIsTransitioning(true);
-      setCurrentScreen(prev => prev - 1);
-      setTimeout(() => setIsTransitioning(false), 800);
-    }
-  };
-
-  // Mouse wheel support for desktop
-  const onWheel = (e) => {
-    if (isTransitioning) return;
-    
-    if (e.deltaY > 30 && currentScreen < totalScreens) {
-      setIsTransitioning(true);
-      setCurrentScreen(prev => prev + 1);
-      setTimeout(() => setIsTransitioning(false), 800);
-    }
-    
-    if (e.deltaY < -30 && currentScreen > 1) {
-      setIsTransitioning(true);
-      setCurrentScreen(prev => prev - 1);
-      setTimeout(() => setIsTransitioning(false), 800);
+  const handleLogoClick = () => {
+    if (!transitioning && currentScreen < 11) {
+      setTransitioning(true);
+      setTimeout(() => {
+        setCurrentScreen(currentScreen + 1);
+        setTransitioning(false);
+      }, 800);
     }
   };
 
   return (
-    <div 
-      className="wrapped-container"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-      onWheel={onWheel}
-    >
+    <div className={`wrapped-container ${animationStarted ? 'animate' : ''} ${transitioning ? 'transitioning' : ''}`}>
       <div className={`screens-wrapper screen-${currentScreen}`}>
-        <Screen1 isActive={currentScreen === 1} />
-        <Screen2 isActive={currentScreen === 2} />
-        <Screen3 isActive={currentScreen === 3} />
-        <Screen4 isActive={currentScreen === 4} />
-        <Screen5 isActive={currentScreen === 5} />
-        <Screen6 isActive={currentScreen === 6} />
-        <Screen7 isActive={currentScreen === 7} />
-        <Screen8 isActive={currentScreen === 8} />
-        <Screen9 isActive={currentScreen === 9} />
-        <Screen10 isActive={currentScreen === 10} />
+        <Screen1 onLogoClick={handleLogoClick} />
+        <Screen2 onLogoClick={handleLogoClick} />
+        <Screen3 onLogoClick={handleLogoClick} />
+        <Screen4 onLogoClick={handleLogoClick} isActive={currentScreen === 4} />
+        <Screen5 onLogoClick={handleLogoClick} />
+        <Screen6 onLogoClick={handleLogoClick} isActive={currentScreen === 6} />
+        <Screen7 onLogoClick={handleLogoClick} isActive={currentScreen === 7} />
+        <Screen8 onLogoClick={handleLogoClick} isActive={currentScreen === 8} />
+        <Screen9 onLogoClick={handleLogoClick} />
+        <Screen10 onLogoClick={handleLogoClick} isActive={currentScreen === 10} />
         <Screen11 isActive={currentScreen === 11} />
-      </div>
-      
-      {/* Progress dots */}
-      <div className="progress-dots">
-        {[...Array(totalScreens)].map((_, i) => (
-          <div 
-            key={i} 
-            className={`dot ${currentScreen === i + 1 ? 'active' : ''}`}
-            onClick={() => {
-              if (!isTransitioning) {
-                setIsTransitioning(true);
-                setCurrentScreen(i + 1);
-                setTimeout(() => setIsTransitioning(false), 800);
-              }
-            }}
-          />
-        ))}
       </div>
     </div>
   );
