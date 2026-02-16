@@ -1,38 +1,7 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "spotify-wrapped/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "build"
-      }
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "python3.9"
     }
-  ],
-  "routes": [
-    {
-      "src": "/api/auth",
-      "dest": "/api/auth.py"
-    },
-    {
-      "src": "/api/callback",
-      "dest": "/api/callback.py"
-    },
-    {
-      "src": "/api/fetch-data",
-      "dest": "/api/fetch-data.py"
-    },
-    {
-      "src": "/api/predict",
-      "dest": "/api/predict.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/spotify-wrapped/$1"
-    }
-  ]
+  }
 }
