@@ -171,7 +171,13 @@ html, body {
 .list-item img { width: 48px; height: 48px; object-fit: cover; border-radius: 3px; }
 .list-item .info h3 { font-family: 'Dela Gothic One', sans-serif; font-size: 3.8vw; color: #fff; }
 .list-item .info p { font-family: 'DM Sans', sans-serif; font-size: 3vw; color: #aaa; }
-.list-item .artist-name-tag { font-family: 'Dela Gothic One', sans-serif; font-size: 4vw; color: #1a1a1a; background: #fff; padding: 3px 10px; }
+.list-item .artist-name-tag { 
+  font-family: 'Dela Gothic One', sans-serif; 
+  font-size: 3.2vw;  /* Reduced from 4vw */
+  color: #1a1a1a; 
+  background: #fff; 
+  padding: 2px 8px;  /* Reduced padding */
+}
 
 /* ===== SCREEN 7 ===== */
 .screen-7 { background: #F5F5DC; padding-top: 50px; }
