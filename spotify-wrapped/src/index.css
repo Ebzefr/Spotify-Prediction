@@ -271,3 +271,42 @@ html, body {
   .final-mins p { font-size: 12px; }
   .final-mins h2 { font-size: 42px; }
 }
+
+/* ===== SVG LINE ANIMATIONS ===== */
+.svg-lines path.line,
+.svg-lines ellipse.line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.svg-lines.active path.line,
+.svg-lines.active ellipse.line {
+  animation: drawLine 2s ease-out forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Stagger animation for multiple lines */
+.svg-lines.active path.line:nth-child(1),
+.svg-lines.active ellipse.line:nth-child(1) {
+  animation-delay: 0.3s;
+}
+
+.svg-lines.active path.line:nth-child(2),
+.svg-lines.active ellipse.line:nth-child(2) {
+  animation-delay: 0.5s;
+}
+
+.svg-lines.active path.line:nth-child(3),
+.svg-lines.active ellipse.line:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+.svg-lines.active path.line:nth-child(4),
+.svg-lines.active ellipse.line:nth-child(4) {
+  animation-delay: 0.9s;
+}
