@@ -394,7 +394,9 @@ const LandingPage = () => {
 
   const handleConnect = () => {
     setIsLoading(true);
-    // Just redirect to backend OAuth endpoint
+   console.log('Redirecting to /api/auth');
+    
+    // Simple redirect to backend
     window.location.href = '/api/auth';
   };
 
