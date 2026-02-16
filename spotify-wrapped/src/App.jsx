@@ -394,10 +394,21 @@ const LandingPage = () => {
 
   const handleConnect = () => {
     setIsLoading(true);
-   console.log('Redirecting to /api/auth');
     
-    // Simple redirect to backend
-    window.location.href = '/api/auth';
+    // Direct Spotify OAuth - always works
+    const clientId = '515f2ea0fed8403b9acc160d10156d2d';
+    const redirectUri = window.location.origin + '/callback';
+    const scopes = 'user-read-recently-played user-top-read user-library-read user-read-playback-state';
+    
+    const params = new URLSearchParams({
+      client_id: clientId,
+      response_type: 'code',
+      redirect_uri: redirectUri,
+      scope: scopes,
+      show_dialog: 'false'
+    });
+    
+    window.location.href = `https://accounts.spotify.com/authorize?${params.toString()}`;
   };
 
   return (
